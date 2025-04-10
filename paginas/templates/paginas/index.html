@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        {% block titulo  %}
+        <title>SIC</title>
+        {% endblock  %}
+
+        <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    
+  <h1>FORMULÁRIO DE CADASTRO</h1>
+    
+<ul>
+    <li>
+        <a href="{% url "index" %}">Início</a>
+    </li>
+    <li>
+        <a href="{% url "sobre" %}">Sobre nós</a>
+    </li>
+</ul>
+
+{%  block conteudo  %}
+    <form method="post" action="página para cadastro">
+       
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome"> <br><br>
+    
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email"><br><br>
+
+  <div> 
+    <label for="idade">Idade:</label>
+        <input type="number" value="0" min="0" max="105" name="idade" id="idade"><br><br>
+    </div>
+
+       <label for="Cidade">Cidade:</label>
+       <select name="Cidade" name="Cidade" id="Cidade">
+        <option value="Curitiba"> Curitiba</option>
+        <option value="Terra Rica"> Terra Rica</option>
+        <option value="Paranavaí" selected> Paranavaí</option>
+        <option value="Maringá"> Maringá</option>
+       </select><br><br>
+
+  <div>  
+        <label for="Sexo">Sexo:</label>
+        <input type="radio" name="Sexo" value="M" id="Sexo" >Masculino<br>
+        <input type="radio" name="Sexo" value="F" id="Sexo" >Feminino<br><br>
+    </div>
+
+   <div>
+    <label for="Interesseres">Interesses:</label><br>
+       <input type="checkbox" id="Interesseres" name="Informática" value="Informática" checked> Informática<br>
+       <input type="checkbox" id="Interesseres" name="Comidas" value="Comidas"> Comidas<br>
+       <input type="checkbox" id="Interesseres" name="Presentes" value="Presentes"> Presentes<br>
+       <input type="checkbox" id="Interesseres" name="Notícias" value="Notícias"> Notícias<br>
+       <input type="checkbox" id="Interesseres" name="Viagens" value="Viagens"> Viagens<br><br>
+
+  </div>
+
+    <div>
+       <label for="Opiniao">Opinião:</label> <br>
+       <textarea name="Opiniao" id="Opiniao"></textarea><br><br>
+    </div>
+
+   <div>
+       <label for="data">Data de Nascimento:</label><br>
+       <input type="date" name="data" id="data"><br><br>
+    </div>
+
+
+
+        <input type="submit">
+        <input type="reset"> <br><br>
+
+    </form>
+
+  {%  endblock  %}
+
+  <p>
+        Desenvolvido por Lucas Rodrigues e Guilherme Ambrozim 
+    <p>
+
+    </body>
+</html>
