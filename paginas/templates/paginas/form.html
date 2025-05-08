@@ -1,0 +1,22 @@
+{% extends "paginas/index.html" %}
+
+{% load static %}
+
+{% block conteudo %}
+<h3>Sobre</h3>
+
+<header>
+    <h1> {{ titulo }} </h1>
+</header>
+
+<form action ="" method ="POST">
+     <!-- Cria um input para validação dos dados -->
+     {% csrf_token %}
+
+     <!-- inprime os campos do formulário (input, select, etc) em <p> diferente -->
+      {{ form.as_p}}
+
+      <!-- Botão para enviar os dados do formulário -->
+      <button type="submit">Salvar</button>
+
+{% endblock  %}
