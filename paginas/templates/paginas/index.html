@@ -17,6 +17,7 @@
     
   <h1>FORMULÁRIO DE CADASTRO</h1>
     
+  <h4> Menu Superior <h4>
 <ul>
     <li>
         <a href="{% url "index" %}">Início</a>
@@ -24,10 +25,16 @@
     <li>
         <a href="{% url "sobre" %}">Sobre nós</a>
     </li>
+    <li>
+        <a href="{% url "cadastrar-laudo" %}">Laudo</a>
+    </li>
+    <li>
+        <a href="{% url "cadastrar-napne" %}">Napne</a>
+    </li>
 </ul>
 
 {%  block conteudo  %}
-    <form method="post" action="página para cadastro">
+    <form method="post" action="cadastrar/napne/">
        
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome"> <br><br>

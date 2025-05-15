@@ -33,7 +33,7 @@ class Responsavel(models.Model):
 
 class Indicativo(models.Model):
     descricao = models.CharField(max_length=250, verbose_name="Descrição")
-    date = models.DateField(verbose_name="Data")
+    data = models.DateField(verbose_name="Data")
     indicativo = models.BooleanField(verbose_name="Indicativo")
 
 class Aluno(models.Model):
