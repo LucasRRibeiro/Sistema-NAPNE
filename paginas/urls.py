@@ -3,7 +3,7 @@ from django.urls import path
 from .views import IndexView, SobreView
 from .views import LaudoCreate, NapneCreate
 
-from .views import CampusUptade
+from .views import LaudoUptade
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"), # URL para a página
