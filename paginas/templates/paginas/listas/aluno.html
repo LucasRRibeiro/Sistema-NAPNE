@@ -1,0 +1,64 @@
+{% extends "paginas/modelo.html" %}
+
+{% load static %}
+
+{% block conteudo %}
+<h3 class="text-success mb-3">Lista de Alunos Registrados</h3>
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>RA</th>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Curso</th>
+                <th>Ano</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Cidade</th>
+                <th>Data de Nasc.</th>
+                <th>Laudo</th>
+                <th>Responsável</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in object_list %}
+            <tr>
+                <td>{{ aluno.ra }}</td>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.endereco }}</td>
+                <td>{{ aluno.fone }}</td>
+                <td>{{ aluno.email }}</td>
+                <td>{{ aluno.curso }}</td>
+                <td>{{ aluno.ano }}</td>
+                <td>{{ aluno.cpf }}</td>
+                <td>{{ aluno.rg }}</td>
+                <td>{{ aluno.cidade }}</td>
+                <td>{{ aluno.data_nasc|date:"d/m/Y" }}</td>
+                <td>{{ aluno.laudo }}</td>
+                <td>{{ aluno.responsavel }}</td>
+                <td>
+                    <a href="{% url 'editar-aluno' aluno.pk %}" class="btn btn-warning btn-sm me-1"
+                        title="Editar">✏️</a>
+                    <a href="{% url 'excluir-aluno' aluno.pk %}" class="btn btn-danger btn-sm" title="Excluir">🗑️</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="14" class="text-center text-muted fst-italic py-3">Nenhum aluno registrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'menu-listas' %}" class="btn btn-outline-success rounded-pill mt-4">
+    &larr; Voltar para o Menu de Listas
+</a>
+
+{% endblock %}

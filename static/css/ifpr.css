@@ -1,0 +1,175 @@
+
+/* 
+Cores do IFPR 
+*/
+.bg-ifpr {
+    background-color: #007834;
+}
+
+.text-ifpr {
+    color: #007834;
+}
+
+.border-ifpr {
+    border-color: #007834;
+}
+.bg-ifpr-escuro {
+    background-color: #315C23;
+}
+
+.text-ifpr-escuro {
+    color: #315C23;
+}
+
+.border-ifpr-escuro {
+    border-color: #315C23;
+}
+
+
+/* 
+Tamanhos diferentes para fontes 
+*/
+.font-75 {
+    font-size: 75%;
+}
+
+.font-115 {
+    font-size: 115%;
+}
+
+.font-125 {
+    font-size: 125%;
+}
+
+.font-150 {
+    font-size: 150%;
+}
+
+.font-175 {
+    font-size: 175%;
+}
+
+
+/* 
+Formatação do DataTable 
+*/
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child::before {
+    top: 15px !important;
+}
+
+
+/* 
+Personalização da Barra de menu pra ficar igual do site 
+*/
+.navbar {
+    padding: 0 !important;
+}
+
+.navbar .navbar-brand{
+    padding-left: 10px;
+}
+
+.navbar a.nav-link{
+    color: white !important;
+}
+
+.navbar .nav-item{
+    padding: 3px 5px;
+}
+
+.navbar .nav-item:hover{
+    background-color: #315C23;
+}
+
+
+/* 
+Alerta na validação dos formulários (login com senha errada, por exemplo) 
+*/
+.alert dl, .alert ol, .alert ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+/*
+Largura máxima das tabelas para não ficar mal formatada
+*/
+table td{
+    max-width: 500px;
+}
+
+.conteudo-esquerda {
+    padding-left: 40px; /* afasta os botões da linha verde */
+}
+
+footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.custom-card {
+    background-color: #f9fdf8;
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.custom-card h2 {
+    font-size: 1.8rem;
+    color: #157347;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.form-container {
+    border: 3px solid green;      /* borda verde */
+    border-radius: 0 15px 15px 0; /* cantos arredondados só na direita, ou use 15px com preto nas pontas */
+    border-color: green black black black; /* borda verde com pontas pretas */
+    background-color: rgb(252, 255, 223);
+    padding: 30px;
+    max-width: 600px;
+    margin: 2rem auto;
+    position: relative;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Caixinha no topo da borda com texto “CADASTRO” */
+  .form-container::before {
+    content: "CADASTRO";
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    background: green;
+    color: white;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+  
+  /* Botão estilizado */
+  .form-container button[type="submit"] {
+    background-color: #a3cef1; /* azul claro */
+    border: none;
+    color: #03396c;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-container button[type="submit"]:hover {
+    background-color: #74a9d8;
+    color: white;
+  }
+  
+  /* Para o form, deixe os campos com um pouco de espaçamento */
+  .form-container p {
+    margin-bottom: 1rem;
+  }

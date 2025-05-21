@@ -1,0 +1,27 @@
+{% extends "paginas/modelo.html" %}
+
+{% load static %}
+
+{% block conteudo %}
+<h3>Excluir dados</h3>
+
+<p class="lead">Deseja realmente excluir o dado?</p>
+
+<form action="" method="POST">
+
+    <p>
+        Deseja Excluir o dado: <strong>{{ object }}</strong>
+    </p>
+
+    <!-- Cria um input para validação dos dados -->
+    {% csrf_token %}
+
+    <!-- Imprime os campos do formulário (input, select, etc) em <p> diferente -->
+    {{ form.as_p }}
+
+    <!-- Botões para enviar ou cancelar -->
+    <button type="submit" class="btn btn-danger me-2">Excluir</button>
+    <a href="{% url 'menu-listas' %}" class="btn btn-secondary">Cancelar</a>
+
+</form>
+{% endblock %}

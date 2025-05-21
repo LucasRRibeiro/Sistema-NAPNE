@@ -1,0 +1,48 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+
+{% block conteudo %}
+<h3 class="text-success mb-3">Lista de Responsáveis Registrados</h3>
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>CPF</th>
+                <th>Cidade</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for responsavel in object_list %}
+            <tr>
+                <td>{{ responsavel.nome }}</td>
+                <td>{{ responsavel.endereco }}</td>
+                <td>{{ responsavel.fone }}</td>
+                <td>{{ responsavel.email }}</td>
+                <td>{{ responsavel.cpf }}</td>
+                <td>{{ responsavel.cidade }}</td>
+                <td>
+                    <a href="{% url 'editar-responsavel' responsavel.pk %}" class="btn btn-warning btn-sm me-1">✏️</a>
+                    <a href="{% url 'excluir-responsavel' responsavel.pk %}" class="btn btn-danger btn-sm">🗑️</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center fst-italic">Nenhum responsável registrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'menu-listas' %}" class="btn btn-outline-success rounded-pill mt-4">
+    &larr; Voltar para o Menu de Listas
+</a>
+
+{% endblock %}

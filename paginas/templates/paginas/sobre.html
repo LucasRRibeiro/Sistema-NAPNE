@@ -1,22 +1,48 @@
-{% extends "paginas/index.html" %}
-
+{% extends "paginas/modelo.html" %}
 {% load static %}
 
+{% block titulo %}
+<title>Sobre o Sistema</title>
+{% endblock %}
+
 {% block conteudo %}
-<h3>Sobre</h3>
+<div class="container py-4">
+    <div class="card custom-card shadow-lg border-0">
+        <div class="card-body p-5">
+            <h2 class="card-title text-center mb-4 text-success fw-bold">Sistema de Gestão NAPNE - IFPR</h2>
 
-<header>
-    <h1>TCC - Sistema de Intenção de Compra</h1>
-</header>
+            <div class="mb-4 text-center">
+                <img src="{% static 'img/marca-cnapne_horizontal-1.png' %}" alt="Logo CNAPNE" style="max-height: 80px;">
+            </div>
 
-<section class="intro">
-    <p>Bem-vindo à página do nosso TCC! Este projeto foi desenvolvido por <strong>Lucas Rodrigues</strong> e <strong>Guilherme Ambrozim</strong>, alunos do <strong>Instituto Federal do Paraná do Campus Paranavaí</strong>.</p>
-    <p>O objetivo deste projeto é a criação de um sistema de intenção de compra, que visa facilitar e otimizar o processo de decisão de compra por parte dos consumidores, utilizando tecnologias modernas e práticas de desenvolvimento de software.</p>
-</section>
+            <p class="text-justify">
+                Bem-vindo à página do nosso TCC! Este projeto foi desenvolvido por <strong>Lucas Rodrigues</strong> e
+                <strong>Guilherme Ambrozim</strong>, alunos do <strong>Instituto Federal do Paraná - Campus
+                    Paranavaí</strong>.
+            </p>
 
-<footer>
-    <p>&copy; 2025 Lucas Rodrigues e Guilherme Ambrozim | Todos os direitos reservados</p>
-</footer>
+            <p class="text-justify">
+                O sistema tem como objetivo principal auxiliar o <strong>NAPNE</strong> na gestão das atividades
+                voltadas à inclusão de alunos com necessidades educacionais específicas. Através da plataforma, é
+                possível organizar, registrar e acompanhar ações pedagógicas, laudos, interações, cadastros e
+                atendimentos realizados por diferentes setores da instituição.
+            </p>
 
+            <p class="text-justify">
+                Com isso, buscamos tornar o processo de inclusão mais eficiente, promovendo uma comunicação fluida entre
+                os profissionais envolvidos, e garantindo um ambiente educacional acessível, justo e acolhedor para
+                todos os estudantes.
+            </p>
 
-{% endblock  %}
+            <!-- Botão de Voltar -->
+            <div class="text-center mt-5">
+                <a href="{% url 'index' %}" class="btn btn-outline-success btn-lg rounded-pill px-4">
+                    ← Voltar ao Início
+                </a>
+            </div>
+
+            <hr class="my-4">
+        </div>
+    </div>
+</div>
+{% endblock %}

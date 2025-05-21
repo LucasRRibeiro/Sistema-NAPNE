@@ -1,0 +1,99 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+
+{% block titulo %}
+<title>Menu de Listas</title>
+{% endblock %}
+
+{% block conteudo %}
+<main class="container py-5">
+    <h2 class="text-center text-success mb-4 fw-bold">Menu de Listas</h2>
+    <p class="text-center text-muted mb-5">Consulte os registros existentes no sistema</p>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Card Alunos -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">👩‍🎓 Alunos</h5>
+                    <p class="card-text">Veja todos os alunos cadastrados no sistema.</p>
+                    <a href="{% url 'listar-aluno' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Servidores -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">👨‍🏫 Servidores</h5>
+                    <p class="card-text">Visualize os servidores vinculados ao NAPNE.</p>
+                    <a href="{% url 'listar-servidor' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Responsáveis -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">👨‍👩‍👧‍👦 Responsáveis</h5>
+                    <p class="card-text">Acompanhe os responsáveis cadastrados.</p>
+                    <a href="{% url 'listar-responsavel' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Laudos -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">📄 Laudos</h5>
+                    <p class="card-text">Acesse os laudos médicos registrados.</p>
+                    <a href="{% url 'listar-laudo' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Indicativos -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">🔍 Indicativos</h5>
+                    <p class="card-text">Veja os registros de indicativos avaliados.</p>
+                    <a href="{% url 'listar-indicativo' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Interações -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">💬 Interações</h5>
+                    <p class="card-text">Consulte as interações feitas com os alunos.</p>
+                    <a href="{% url 'listar-interacoes' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card NAPNE -->
+        <div class="col">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-success">🏢 NAPNE</h5>
+                    <p class="card-text">Visualize os registros de instâncias do NAPNE.</p>
+                    <a href="{% url 'listar-napne' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="text-center mt-5">
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-lg rounded-pill">
+            &larr; Voltar ao Início
+        </a>
+    </div>
+</main>
+{% endblock %}
