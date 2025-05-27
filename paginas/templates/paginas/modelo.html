@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
+<link rel="shortcut icon" type="image/png" href="{% static 'img/Icone-site.png' %}" >
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +19,7 @@
 
     <!-- Cabeçalho institucional -->
     <header style="background-color: rgb(252, 255, 223);" class="py-2 px-4 border-bottom">
-        <img src="{% static 'img/reitoria-horizontal-1.png' %}" alt="Logo IFPR" height="60">
+        <a href="{% url 'index' %}"><img src="{% static 'img/reitoria-horizontal-1.png' %}" alt="Logo IFPR" height="60"></a>
     </header>
 
     <!-- Conteúdo principal -->
@@ -38,5 +41,16 @@
     {% block scripts %}
     {% endblock %}
 </body>
+
+ <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 
 </html>
