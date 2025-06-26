@@ -7,6 +7,8 @@ from django.views.generic.list import ListView
 # Importar as classes criadas em modelos.py
 from .models import Laudo, Napne, Responsavel, Indicativo, Aluno, Interacoes, Servidor
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Função que converte o nome de uma URL na rota dela
 
 
@@ -17,14 +19,14 @@ class IndexView (TemplateView):
 class SobreView(TemplateView):
     template_name = 'paginas/sobre.html'
 
-class MenuView(TemplateView):
+class MenuView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu.html'
 
-class MenuListasView(TemplateView):
+class MenuListasView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu-listas.html'
 
 
-class LaudoCreate(CreateView):
+class LaudoCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'  # arquivo html com o <form>
     model = Laudo  # classe criada no models
     fields = ['descricao', 'data']  # lista com os nome dos atributos

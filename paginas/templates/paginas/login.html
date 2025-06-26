@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<link rel="shortcut icon" type="image/png" href="{% static 'img/Icone-site.png' %}" >
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block titulo %}
+    <title>CNAPNE - IFPR</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ifpr.css' %}">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Cabeçalho institucional -->
+    <header style="background-color: rgb(252, 255, 223);" class="py-2 px-4 border-bottom">
+        <a href="{% url 'index' %}"><img src="{% static 'img/reitoria-horizontal-1.png' %}" alt="Logo IFPR" height="60"></a>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="container my-5 flex-grow-1">
+      {% block conteudo %}
+      <div class="form-container login">
+          <form method="POST" action="">
+              {% csrf_token %}
+              {{ form.as_p }}
+      
+              <button type="submit">Entrar</button>
+          </form>
+      </div>
+      {% endblock %}
+    </main>
+
+    <!-- Rodapé institucional -->
+    <footer class="text-center text-muted py-3 mt-auto">
+        <p class="mb-0"><strong>© 2025 Lucas Rodrigues e Guilherme Ambrozim | Todos os direitos reservados</strong></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+ <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+</html>
+
+

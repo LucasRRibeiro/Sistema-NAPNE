@@ -6,7 +6,31 @@ from .views import LaudoUpdate, NapneUpdate, ResponsavelUpdate, IndicativoUpdate
 from .views import LaudoDelete, NapneDelete, ResponsavelDelete, IndicativoDelete, AlunoDelete, InteracoesDelete, ServidorDelete
 from .views import LaudoList, NapneList, ResponsavelList, IndicativoList, AlunoList, InteracoesList, ServidorList
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
+
+    #Criar rota para página de login
+    path('login/', auth_views.LoginView.as_view(
+        template_name = 'paginas/login.html',
+         extra_context = {
+            'titulo': 'Autenticação',
+            'botao': 'Entrar'}   
+    ), name="login"),
+
+    path('atualizar/senha/', auth_views.PasswordChangeView.as_view(
+    template_name = 'paginas/form.html',
+        extra_context = {
+        'titulo': 'Atualizar senha',
+        'botao': 'Salvar'}   
+    ), name="senha"),
+    #detail view para os models
+
+
+    
+    #Criar uma rota de logout
+    path('sair/', auth_views.LogoutView.as_view(), name="logout"),
+    
     path('', IndexView.as_view(), name="index"), # URL para a página
     path('sobre/', SobreView.as_view(), name="sobre"),
     path('menu/', MenuView.as_view(), name="menu"),

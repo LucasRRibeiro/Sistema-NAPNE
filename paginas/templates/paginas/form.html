@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block conteudo %}
-<div class="form-container">
+<div class="form-container cadastro">
     <form method="POST" action="">
         {% csrf_token %}
         {{ form.as_p }}

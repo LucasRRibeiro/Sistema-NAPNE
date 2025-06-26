@@ -125,8 +125,8 @@ footer {
 
 .form-container {
     border: 3px solid green;      /* borda verde */
-    border-radius: 0 15px 15px 0; /* cantos arredondados só na direita, ou use 15px com preto nas pontas */
-    border-color: green black black black; /* borda verde com pontas pretas */
+    border-radius: 15px 15px 15px 15px; /* cantos arredondados só na direita, ou use 15px com preto nas pontas */
+    border-color: green #000000 black black; /* borda verde com pontas pretas */
     background-color: rgb(252, 255, 223);
     padding: 30px;
     max-width: 600px;
@@ -136,7 +136,7 @@ footer {
   }
   
   /* Caixinha no topo da borda com texto “CADASTRO” */
-  .form-container::before {
+  .form-container.cadastro::before {
     content: "CADASTRO";
     position: absolute;
     top: -20px;
@@ -148,6 +148,33 @@ footer {
     border-radius: 8px 8px 0 0;
     font-size: 0.9rem;
     letter-spacing: 1px;
+  }
+  
+  .form-container {
+    position: relative; /* importante para o ::before funcionar */
+  }
+  
+  .form-container::before {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: white;
+    content: "";
+  }
+  
+  .form-container.cadastro::before {
+    content: "CADASTRO";
+    background: green;
+  }
+  
+  .form-container.login::before {
+    content: "LOGIN";
+    background: green;
   }
   
   /* Botão estilizado */
