@@ -1,0 +1,12 @@
+runtime: python312 
+entrypoint: gunicorn -b :$PORT sic2025.wsgi  # Substitua "seu_projeto" pelo nome do seu projeto Django (o mesmo nome da pasta que tem o arquivo settings.py)
+
+handlers:
+- url: /static
+  static_dir: static_gcloud/
+- url: /.*
+  script: auto
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 5
