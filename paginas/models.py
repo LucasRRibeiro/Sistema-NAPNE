@@ -1,31 +1,22 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-#OBS: quando tivermos um objeto de uma outra classe, teremos um chave estrangeira e vamos
-#Utilizar models.ForeignKey(Classe do objeto, on_delete=model.PROTECT ou Cascate (o on_delete vai depender da minha situação, se pode ou não deletar um campo na classe do objeto))
-
-#O tipo de dado inteiro vária em várias opções com Positive, small, big. Com parametros para sua forma de iniciar(default=0)
-
-# Todas as classes DEVEM ter herança de models.Model
-# Create your models here.
-
-#Crie suas classes
 class Laudo(models.Model):
-    #Definir os atributos
     descricao = models.CharField(max_length=250, verbose_name="Descrição")
     data = models.DateField(verbose_name="Data do Laudo")
 
     def __str__(self):
-     return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"
+        return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"
 
 class Napne(models.Model):
-    #Definir os atributos
-   data_criacao = models.DateField(verbose_name="Data de Criação")
-   descricao = models.CharField(max_length=250, verbose_name="Descrição")
+    data_criacao = models.DateField(verbose_name="Data de Criação")
+    descricao = models.CharField(max_length=250, verbose_name="Descrição")
 
-   def __str__(self):
-     return f"{self.descricao} ({self.data_criacao.strftime('%d/%m/%Y')})"
+    def __str__(self):
+        return f"{self.descricao} ({self.data_criacao.strftime('%d/%m/%Y')})"
 
 class Responsavel(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='responsavel', null=True, blank=True)
     nome = models.CharField(max_length=100, verbose_name="Nome")
     endereco = models.CharField(max_length=200, verbose_name="Endereço")
     fone = models.CharField(max_length=15, verbose_name="Telefone")
@@ -34,15 +25,18 @@ class Responsavel(models.Model):
     cidade = models.CharField(max_length=100, verbose_name="Cidade")
 
     def __str__(self):
-     return self.nome
+        return self.nome
+
 class Indicativo(models.Model):
     descricao = models.CharField(max_length=250, verbose_name="Descrição")
     data = models.DateField(verbose_name="Data")
     indicativo = models.BooleanField(verbose_name="Indicativo")
 
     def __str__(self):
-     return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"
+        return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"
+
 class Aluno(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aluno', null=True, blank=True)
     ra = models.PositiveIntegerField(unique=True, verbose_name="RA")
     nome = models.CharField(max_length=100, verbose_name="Nome")
     endereco = models.CharField(max_length=200, verbose_name="Endereço")
@@ -58,7 +52,7 @@ class Aluno(models.Model):
     responsavel = models.ForeignKey(Responsavel, on_delete=models.SET_NULL, verbose_name="Responsável", null=True, blank=True)
 
     def __str__(self):
-     return f"{self.nome} (RA: {self.ra})"
+        return f"{self.nome} (RA: {self.ra})"
 
 class Interacoes(models.Model):
     data = models.DateField(verbose_name="Data")
@@ -66,9 +60,10 @@ class Interacoes(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, verbose_name="Aluno")
 
     def __str__(self):
-     return f"Interação em {self.data.strftime('%d/%m/%Y')} - {self.aluno.nome}"
-    
+        return f"Interação em {self.data.strftime('%d/%m/%Y')} - {self.aluno.nome}"
+
 class Servidor(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='servidor', null=True, blank=True)
     siape = models.PositiveIntegerField(unique=True, verbose_name="SIAPE")
     nome = models.CharField(max_length=100, verbose_name="Nome")
     endereco = models.CharField(max_length=200, verbose_name="Endereço")
@@ -79,4 +74,4 @@ class Servidor(models.Model):
     napne = models.ForeignKey(Napne, on_delete=models.CASCADE, verbose_name="NAPNE")
 
     def __str__(self):
-     return f"{self.nome} (SIAPE: {self.siape})"
+        return f"{self.nome} (SIAPE: {self.siape})"
