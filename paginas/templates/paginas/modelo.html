@@ -4,7 +4,6 @@
 
 <link rel="shortcut icon" type="image/png" href="{% static 'img/Icone-site.png' %}" >
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +23,23 @@
 
     <!-- Conteúdo principal -->
     <main class="container my-5 flex-grow-1">
+
+        <!-- Exibição de mensagens de feedback -->
+        {% if messages %}
+        <div class="mb-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-relative" role="alert" style="padding-right: 2.5rem;">
+              {% if 'success' in message.tags %}
+                <span style="font-size: 1.25rem; margin-right: 0.5rem;">✅</span>
+              {% endif %}
+              {{ message }}
+              <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+
         {% block conteudo %}
         {% endblock %}
     </main>
@@ -42,15 +58,15 @@
     {% endblock %}
 </body>
 
- <div vw class="enabled">
+<div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
+        <div class="vw-plugin-top-wrapper"></div>
     </div>
-  </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
+</script>
 
 </html>
