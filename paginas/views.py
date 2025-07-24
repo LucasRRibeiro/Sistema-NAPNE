@@ -1,24 +1,19 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
-#
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-# Importar as classes criadas em modelos.py
-from .models import Laudo, Napne, Responsavel, Indicativo, Aluno, Interacoes, Servidor
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# Função que converte o nome de uma URL na rota dela
+from .models import Laudo, Napne, Responsavel, Indicativo, Aluno, Interacoes, Servidor
 
-
-class IndexView (TemplateView):
+# VIEWS PÚBLICAS (sem login necessário)
+class IndexView(TemplateView):
     template_name = "paginas/index.html"
-
 
 class SobreView(TemplateView):
     template_name = 'paginas/sobre.html'
 
+# VIEWS PROTEGIDAS
 class MenuView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu.html'
 
@@ -26,210 +21,170 @@ class MenuListasView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu-listas.html'
 
 
+# CREATE
 class LaudoCreate(LoginRequiredMixin, CreateView):
-    template_name = 'paginas/form.html'  # arquivo html com o <form>
-    model = Laudo  # classe criada no models
-    fields = ['descricao', 'data']  # lista com os nome dos atributos
-    success_url = reverse_lazy('listar-laudo')  # name da url para redirecionar
-    extra_context = {'titulo': 'Cadastro de Laudo',
-                       'botao': 'Salvar'}
+    template_name = 'paginas/form.html'
+    model = Laudo
+    fields = ['descricao', 'data']
+    success_url = reverse_lazy('listar-laudo')
+    extra_context = {'titulo': 'Cadastro de Laudo', 'botao': 'Salvar'}
 
-
-class NapneCreate(CreateView):
+class NapneCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Napne
     fields = ['data_criacao', 'descricao']
     success_url = reverse_lazy('listar-napne')
-    extra_context = {'titulo': 'Cadastro de Napne',
-                       'botao': 'Salvar'}
+    extra_context = {'titulo': 'Cadastro de Napne', 'botao': 'Salvar'}
 
-
-class ResponsavelCreate(CreateView):
+class ResponsavelCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Responsavel
     fields = ['nome', 'endereco', 'fone', 'email', 'cpf', 'cidade']
     success_url = reverse_lazy('listar-responsavel')
-    extra_context = {'titulo': 'Cadastro de Responsável',
-                       'botao': 'Salvar'}
+    extra_context = {'titulo': 'Cadastro de Responsável', 'botao': 'Salvar'}
 
-
-class IndicativoCreate(CreateView):
+class IndicativoCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Indicativo
     fields = ['descricao', 'data', 'indicativo']
     success_url = reverse_lazy('listar-indicativo')
-    extra_context = {'titulo': 'Cadastro de Indicativo',
-                       'botao': 'Salvar'}
+    extra_context = {'titulo': 'Cadastro de Indicativo', 'botao': 'Salvar'}
 
-
-class AlunoCreate(CreateView):
+class AlunoCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Aluno
-    fields = ['ra', 'nome', 'endereco', 'fone', 'email', 'curso', 'ano',
-        'cpf', 'rg',  'cidade', 'data_nasc', 'laudo', 'responsavel']
+    fields = ['ra', 'nome', 'endereco', 'fone', 'email', 'curso', 'ano', 'cpf', 'rg', 'cidade', 'data_nasc', 'laudo', 'responsavel']
     success_url = reverse_lazy('listar-aluno')
-    extra_context = {'titulo': 'Cadastro de alunos',
-                       'botao': 'Salvar'}
+    extra_context = {'titulo': 'Cadastro de alunos', 'botao': 'Salvar'}
 
-
-class InteracoesCreate(CreateView):
+class InteracoesCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Interacoes
     fields = ['data', 'descricao', 'aluno']
     success_url = reverse_lazy('listar-interacoes')
-    extra_context = {'titulo': 'Cadastro de Interações',
-                       'botao': 'Salvar'}
+    extra_context = {'titulo': 'Cadastro de Interações', 'botao': 'Salvar'}
+
+class ServidorCreate(LoginRequiredMixin, CreateView):
+    template_name = 'paginas/form.html'
+    model = Servidor
+    fields = ['siape', 'nome', 'endereco', 'fone', 'email', 'cidade', 'tipo', 'napne']
+    success_url = reverse_lazy('listar-servidor')
+    extra_context = {'titulo': 'Cadastro de Servidor', 'botao': 'Salvar'}
 
 
-class ServidorCreate(CreateView):
-  template_name = 'paginas/form.html'
-  model = Servidor
-  fields = ['siape', 'nome', 'endereco', 'fone',
-      'email', 'cidade', 'tipo', 'napne']
-  success_url = reverse_lazy('listar-servidor')
-  extra_context = {'titulo': 'Cadastro de Servidor',
-                       'botao': 'Salvar'}
+# UPDATE
+class LaudoUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'paginas/form.html'
+    model = Laudo
+    fields = ['descricao', 'data']
+    success_url = reverse_lazy('listar-laudo')
+    extra_context = {'titulo': 'Atualização de Laudo', 'botao': 'Salvar'}
 
-    #############################################################################################################
-
-
-class LaudoUpdate(UpdateView):
- template_name = 'paginas/form.html'  # arquivo html com o <form>
- model = Laudo  # classe criada no models
- fields = ['descricao', 'data']  # lista com os nome dos atributos
- success_url = reverse_lazy('listar-laudo')  # name da url para redirecionar
- extra_context = {'titulo': 'Atualização de Laudo',
-                    'botao': 'Salvar'}
-
-
-class NapneUpdate(UpdateView):
+class NapneUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Napne
     fields = ['data_criacao', 'descricao']
     success_url = reverse_lazy('listar-napne')
-    extra_context = {'titulo': 'Atualização de Napne',
-                     'botao': 'Salvar'}
+    extra_context = {'titulo': 'Atualização de Napne', 'botao': 'Salvar'}
 
-
-class ResponsavelUpdate(UpdateView):
+class ResponsavelUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Responsavel
     fields = ['nome', 'endereco', 'fone', 'email', 'cpf', 'cidade']
     success_url = reverse_lazy('listar-responsavel')
-    extra_context = {'titulo': 'Atualização de Responsável',
-                     'botao': 'Salvar'}
+    extra_context = {'titulo': 'Atualização de Responsável', 'botao': 'Salvar'}
 
-
-class IndicativoUpdate(UpdateView):
+class IndicativoUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Indicativo
     fields = ['descricao', 'data', 'indicativo']
     success_url = reverse_lazy('listar-indicativo')
-    extra_context = {'titulo': 'Atualização de Indicativo',
-                     'botao': 'Salvar'}
+    extra_context = {'titulo': 'Atualização de Indicativo', 'botao': 'Salvar'}
 
-
-class AlunoUpdate(UpdateView):
+class AlunoUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Aluno
-    fields = ['ra', 'nome', 'endereco', 'fone', 'email', 'curso', 'ano',
-              'cpf', 'rg',  'cidade', 'data_nasc', 'laudo', 'responsavel']
+    fields = ['ra', 'nome', 'endereco', 'fone', 'email', 'curso', 'ano', 'cpf', 'rg', 'cidade', 'data_nasc', 'laudo', 'responsavel']
     success_url = reverse_lazy('listar-aluno')
-    extra_context = {'titulo': 'Atualização de alunos',
-                     'botao': 'Salvar'}
+    extra_context = {'titulo': 'Atualização de alunos', 'botao': 'Salvar'}
 
-
-class InteracoesUpdate(UpdateView):
+class InteracoesUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Interacoes
     fields = ['data', 'descricao', 'aluno']
     success_url = reverse_lazy('listar-interacoes')
-    extra_context = {'titulo': 'Atualização de Interações',
-                     'botao': 'Salvar'}
+    extra_context = {'titulo': 'Atualização de Interações', 'botao': 'Salvar'}
+
+class ServidorUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'paginas/form.html'
+    model = Servidor
+    fields = ['siape', 'nome', 'endereco', 'fone', 'email', 'cidade', 'tipo', 'napne']
+    success_url = reverse_lazy('listar-servidor')
+    extra_context = {'titulo': 'Atualização de Servidor', 'botao': 'Salvar'}
 
 
-class ServidorUpdate(UpdateView):
-  template_name = 'paginas/form.html'
-  model = Servidor
-  fields = ['siape', 'nome', 'endereco', 'fone',
-      'email', 'cidade', 'tipo', 'napne']
-  success_url = reverse_lazy('listar-servidor')
-  extra_context = {'titulo': 'Atualização de Servidor',
-                   'botao': 'Salvar'}
+# DELETE
+class LaudoDelete(LoginRequiredMixin, DeleteView):
+    model = Laudo
+    template_name = 'paginas/form-excluir.html'
+    success_url = reverse_lazy('listar-laudo')
 
-  #############################################################################################################
-
-class LaudoDelete(DeleteView):
-   model = Laudo #classe criada no models
-   template_name = 'paginas/form-excluir.html' # arquivo html com o <form>
-   success_url = reverse_lazy('listar-laudo') # name da url para redirecionar
-
-
-class NapneDelete(DeleteView):
+class NapneDelete(LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Napne
     success_url = reverse_lazy('listar-napne')
-   
 
-class ResponsavelDelete(DeleteView):
+class ResponsavelDelete(LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Responsavel
     success_url = reverse_lazy('listar-responsavel')
-    
 
-class IndicativoDelete(DeleteView):
+class IndicativoDelete(LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Indicativo
     success_url = reverse_lazy('listar-indicativo')
-    
 
-class AlunoDelete(DeleteView):
+class AlunoDelete(LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Aluno
     success_url = reverse_lazy('listar-aluno')
-    
 
-class InteracoesDelete(DeleteView):
+class InteracoesDelete(LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Interacoes
     success_url = reverse_lazy('listar-interacoes')
-   
-class ServidorDelete(DeleteView):
-  template_name = 'paginas/form-excluir.html'
-  model = Servidor
-  success_url = reverse_lazy('listar-servidor')
-  
-#########################################################################################################################
 
-class LaudoList(ListView):
+class ServidorDelete(LoginRequiredMixin, DeleteView):
+    template_name = 'paginas/form-excluir.html'
+    model = Servidor
+    success_url = reverse_lazy('listar-servidor')
+
+
+# LIST
+class LaudoList(LoginRequiredMixin, ListView):
     model = Laudo
     template_name = "paginas/listas/laudo.html"
-    
-class NapneList(ListView):
-    template_name = "paginas/listas/napne.html"
+
+class NapneList(LoginRequiredMixin, ListView):
     model = Napne
-   
+    template_name = "paginas/listas/napne.html"
 
-class ResponsavelList(ListView):
-    template_name = "paginas/listas/responsavel.html"
+class ResponsavelList(LoginRequiredMixin, ListView):
     model = Responsavel
-    
+    template_name = "paginas/listas/responsavel.html"
 
-class IndicativoList(ListView):
-    template_name = "paginas/listas/indicativo.html"
+class IndicativoList(LoginRequiredMixin, ListView):
     model = Indicativo
-    
+    template_name = "paginas/listas/indicativo.html"
 
-class AlunoList(ListView):
-    template_name = "paginas/listas/aluno.html"
+class AlunoList(LoginRequiredMixin, ListView):
     model = Aluno
-    
+    template_name = "paginas/listas/aluno.html"
 
-class InteracoesList(ListView):
-    template_name = "paginas/listas/interacoes.html"
+class InteracoesList(LoginRequiredMixin, ListView):
     model = Interacoes
-   
-class ServidorList(ListView):
-  template_name = "paginas/listas/servidor.html"
-  model = Servidor
-  
+    template_name = "paginas/listas/interacoes.html"
+
+class ServidorList(LoginRequiredMixin, ListView):
+    model = Servidor
+    template_name = "paginas/listas/servidor.html"
