@@ -12,6 +12,20 @@
     {% endblock %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/ifpr.css' %}">
+
+    <style>
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -40,8 +54,10 @@
       {% endif %}
       
 
-        {% block conteudo %}
-        {% endblock %}
+       <div id="conteudo-fade" class="fade-in">
+    {% block conteudo %}
+    {% endblock %}
+</div>
     </main>
 
     <!-- Rodapé institucional -->
@@ -55,6 +71,14 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     {% block scripts %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const conteudo = document.getElementById('conteudo-fade');
+        setTimeout(() => {
+            conteudo.classList.add('visible');
+        }, 100);  // pequeno atraso para ativar transição
+    });
+</script>
     {% endblock %}
 </body>
 

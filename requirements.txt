@@ -1,0 +1,11 @@
+django==4.2.20
+django-autocomplete-light==3.9.7
+django-braces==1.16.0
+django-crispy-forms==2.3
+django-dbbackup==4.2.1
+django-debug-toolbar==4.3.0
+django-filter==24.3
+django-localflavor==4.0
+crispy-bootstrap5==2025.4
+psycopg2==2.9.10
+gunicorn
