@@ -4,8 +4,34 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-
 from .models import Laudo, Napne, Responsavel, Indicativo, Aluno, Interacoes, Servidor
+
+from django.contrib.auth.models import User, Group
+from .forms import UsuarioCadastroForm
+
+# Crie a view no final do arquivo ou em outro local que faça sentido
+class CadastroUsuarioView(CreateView):
+    model = User
+    # Não tem o fields, pois ele é definido no forms.py
+    form_class = UsuarioCadastroForm
+    # Pode utilizar o seu form padrão
+    template_name = 'paginas/form.html'
+    success_url = reverse_lazy('login')
+    extra_context = {
+        'titulo': 'Cadastro de Usuário',
+        'botao': 'Registrar',
+    }
+
+    def form_valid(self, form):
+        # Faz o comportamento padrão do form_valid
+        url = super().form_valid(form)
+        # Busca ou cria um grupo com esse nome
+        grupo, criado = Group.objects.get_or_create(name='Estudante')
+        # Acessa o objeto criado e adiciona o usuário no grupo acima
+        self.object.groups.add(grupo)
+        # Retorna a URL de sucesso
+        return url
+
 
 # VIEWS PÚBLICAS (sem login necessário)
 class IndexView(TemplateView):
@@ -63,6 +89,12 @@ class LaudoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = "Laudo criado com sucesso!"
     extra_context = {'titulo': 'Cadastro de Laudo', 'botao': 'Salvar'}
 
+    def form_valid(self, form):
+        form.instance.cadastrado_por = self.request.user
+        # Aqui você pode adicionar lógica adicional se necessário
+        return super().form_valid(form)
+    
+
 class InteracoesCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Interacoes
@@ -71,6 +103,11 @@ class InteracoesCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = "Interação criada com sucesso!"
     extra_context = {'titulo': 'Cadastro de Interações', 'botao': 'Salvar'}
 
+    def form_valid(self, form):
+        form.instance.cadastrado_por = self.request.user
+        # Aqui você pode adicionar lógica adicional se necessário
+        return super().form_valid(form)
+
 class IndicativoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Indicativo
@@ -78,6 +115,11 @@ class IndicativoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('listar-indicativo')
     success_message = "Indicativo criado com sucesso!"
     extra_context = {'titulo': 'Cadastro de Indicativo', 'botao': 'Salvar'}
+
+    def form_valid(self, form):
+        form.instance.cadastrado_por = self.request.user
+        # Aqui você pode adicionar lógica adicional se necessário
+        return super().form_valid(form)
 
 # UPDATE
 class NapneUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):

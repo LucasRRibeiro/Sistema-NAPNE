@@ -59,6 +59,10 @@ class Laudo(models.Model):
     data = models.DateField(verbose_name="Data do Laudo")
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
 
+    cadastrado_por = models.ForeignKey(User, on_delete=models.PROTECT)
+    cadastrado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"
     
@@ -67,6 +71,10 @@ class Interacoes(models.Model):
     data = models.DateField(verbose_name="Data")
     descricao = models.TextField(verbose_name="Descrição")
     laudo = models.ForeignKey(Laudo, on_delete=models.CASCADE)
+
+    cadastrado_por = models.ForeignKey(User, on_delete=models.PROTECT)
+    cadastrado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"Interação em {self.data.strftime('%d/%m/%Y')} - {self.aluno.nome}"
 
@@ -76,6 +84,10 @@ class Indicativo(models.Model):
     data = models.DateField(verbose_name="Data")
     indicativo = models.BooleanField(verbose_name="Indicativo")
     laudo = models.ForeignKey(Laudo, on_delete=models.CASCADE)
+
+    cadastrado_por = models.ForeignKey(User, on_delete=models.PROTECT)
+    cadastrado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.descricao} ({self.data.strftime('%d/%m/%Y')})"

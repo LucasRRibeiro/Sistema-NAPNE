@@ -5,10 +5,12 @@ from .views import LaudoCreate, NapneCreate, ResponsavelCreate, IndicativoCreate
 from .views import LaudoUpdate, NapneUpdate, ResponsavelUpdate, IndicativoUpdate, AlunoUpdate, InteracoesUpdate, ServidorUpdate
 from .views import LaudoDelete, NapneDelete, ResponsavelDelete, IndicativoDelete, AlunoDelete, InteracoesDelete, ServidorDelete
 from .views import LaudoList, NapneList, ResponsavelList, IndicativoList, AlunoList, InteracoesList, ServidorList
-
 from django.contrib.auth import views as auth_views
+from .views import CadastroUsuarioView
 
 urlpatterns = [
+
+    path("registrar/", CadastroUsuarioView.as_view(), name="registrar"),
 
     #Criar rota para página de login
     path('login/', auth_views.LoginView.as_view(

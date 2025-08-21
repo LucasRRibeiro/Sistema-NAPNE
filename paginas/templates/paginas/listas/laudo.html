@@ -9,14 +9,21 @@
     <table class="table table-striped table-bordered align-middle">
         <thead class="table-success">
             <tr>
+                <th>Cadastrado Por</th>
+                <th>Cadastrado em</th>
+                <th>Atualizado em</th>
                 <th>Descrição</th>
                 <th>Data do Laudo</th>
                 <th>Opções</th>
+               
             </tr>
         </thead>
         <tbody>
             {% for laudo in object_list %}
             <tr>
+                <td>{{ laudo.cadastrado_por}}</td>
+                <td>{{ laudo.cadastrado_em }}</td>
+                <td>{{ laudo.atualizado_em }}</td>
                 <td>{{ laudo.descricao }}</td>
                 <td>{{ laudo.data|date:"d/m/Y" }}</td>
                 <td>
@@ -26,7 +33,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3" class="text-center fst-italic">Nenhum laudo registrado.</td>
+                <td colspan="6" class="text-center fst-italic">Nenhum laudo registrado.</td>
             </tr>
             {% endfor %}
         </tbody>
