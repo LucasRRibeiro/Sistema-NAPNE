@@ -26,17 +26,20 @@
         </a>
 
         <br><br>
-        
+
         <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
             Sobre o Sistema
         </a><br><br>
-
-        <a href="{% url 'logout' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Sair
-        </a><br><br>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+                Sair
+            </button>
+        </form>
         {% else %}
-    
-        <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+
+        <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto"
+            style="width: 300px;">
             Cadastrar
         </a><br><br>
 

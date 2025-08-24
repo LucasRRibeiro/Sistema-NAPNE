@@ -201,3 +201,84 @@ footer {
     margin-bottom: 1rem;
   }
 
+.mensagem-cadastro {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #03396c; /* cor combinando com o botão/login */
+}
+    /* Mesma animação usada no modelo principal */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+      /* Formulário centralizado e compacto */
+    .form-container.login {
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 25px 20px;
+      background-color: rgb(252, 255, 223);
+      border-radius: 15px;
+      border: 3px solid green;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+     .form-container.login::before {
+      content: "LOGIN";
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      background-color: green;
+      color: white;
+      padding: 4px 12px;
+      font-weight: 700;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .form-container button[type="submit"] {
+      width: 100%;
+      margin-top: 15px;
+      background-color: #a3cef1;
+      border: none;
+      color: #03396c;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button[type="submit"]:hover {
+      background-color: #74a9d8;
+      color: white;
+    }
+
+    .mensagem-cadastro {
+      font-size: 0.85rem;
+      text-align: center;
+      margin: 10px 0 0 0;
+    }
+
+    /* Logo ajustada */
+    #logo-fade {
+      max-height: 300px;
+      width: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    @media (max-width: 768px) {
+      #logo-fade { max-height: 200px; margin-bottom: 15px; }
+      .form-container { padding: 20px 15px; }
+    }
+
