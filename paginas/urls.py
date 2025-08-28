@@ -7,6 +7,7 @@ from .views import LaudoDelete, NapneDelete, ResponsavelDelete, IndicativoDelete
 from .views import LaudoList, NapneList, ResponsavelList, IndicativoList, AlunoList, InteracoesList, ServidorList
 from django.contrib.auth import views as auth_views
 from .views import CadastroUsuarioView
+from .views import MeusLaudos
 
 urlpatterns = [
 
@@ -69,6 +70,8 @@ urlpatterns = [
     path('listar/aluno/', AlunoList.as_view(), name="listar-aluno"),
     path('listar/interacoes/', InteracoesList.as_view(), name="listar-interacoes"),
     path('listar/servidor/', ServidorList.as_view(), name="listar-servidor")
+
+    path("listar/meus-laudos/", MeusLaudos.as_view(), name="meus-laudos")
 
 ]
 

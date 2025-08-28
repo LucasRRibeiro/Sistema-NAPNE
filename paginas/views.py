@@ -1,3 +1,5 @@
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -5,6 +7,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Laudo, Napne, Responsavel, Indicativo, Aluno, Interacoes, Servidor
+from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
@@ -65,6 +68,27 @@ class ServidorCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = "Servidor criado com sucesso!"
     extra_context = {'titulo': 'Cadastro de Servidor', 'botao': 'Salvar'}
 
+    def form_valid(self, form):
+        # o username do servidor é o nº do siape sem máscara
+        username = form.cleaned_data['siape']
+        password = form.cleaned_data['siape']
+        # Verifica se já existe um usuário com esse username
+        if not User.objects.filter(username=username).exists():
+            # Se não existir, cria o usuário
+            usuario = User.objects.create_user(username=username, password=password)
+            usuario.save()
+            # Busca ou cria o grupo "Servidor" e adiciona o usuário a esse grupo
+            grupo, criado = Group.objects.get_or_create(name='Servidor')
+            usuario.groups.add(grupo)
+            # Associa o usuário criado ao servidor do formulário
+            form.instance.usuario = usuario
+        else:
+            # Retorna erro no formulário dizendo que o siape já está em uso
+            form.add_error('siape', 'Já existe um servidor com esse SIAPE.')
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
 class ResponsavelCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Responsavel
@@ -73,6 +97,28 @@ class ResponsavelCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = "Responsável criado com sucesso!"
     extra_context = {'titulo': 'Cadastro de Responsável', 'botao': 'Salvar'}
 
+    def form_valid(self, form):
+        # o username do servidor é o nº do siape sem máscara
+        username = form.cleaned_data['nome']
+        password = form.cleaned_data['fone']
+        # Verifica se já existe um usuário com esse username
+        if not User.objects.filter(username=username).exists():
+            # Se não existir, cria o usuário
+            usuario = User.objects.create_user(username=username, password=password)
+            usuario.save()
+            # Busca ou cria o grupo "Servidor" e adiciona o usuário a esse grupo
+            grupo, criado = Group.objects.get_or_create(name='Responsavel')
+            usuario.groups.add(grupo)
+            # Associa o usuário criado ao servidor do formulário
+            form.instance.usuario = usuario
+        else:
+            # Retorna erro no formulário dizendo que o siape já está em uso
+            form.add_error('nome', 'Já existe um responsavel com esses dados.')
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+
 class AlunoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Aluno
@@ -80,6 +126,27 @@ class AlunoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('listar-aluno')
     success_message = "Aluno criado com sucesso!"
     extra_context = {'titulo': 'Cadastro de alunos', 'botao': 'Salvar'}
+
+    def form_valid(self, form):
+        # o username do servidor é o nº do siape sem máscara
+        username = form.cleaned_data['ra']
+        password = form.cleaned_data['ra']
+        # Verifica se já existe um usuário com esse username
+        if not User.objects.filter(username=username).exists():
+            # Se não existir, cria o usuário
+            usuario = User.objects.create_user(username=username, password=password)
+            usuario.save()
+            # Busca ou cria o grupo "Servidor" e adiciona o usuário a esse grupo
+            grupo, criado = Group.objects.get_or_create(name='Aluno')
+            usuario.groups.add(grupo)
+            # Associa o usuário criado ao servidor do formulário
+            form.instance.usuario = usuario
+        else:
+            # Retorna erro no formulário dizendo que o siape já está em uso
+            form.add_error('ra', 'Já existe um aluno com esse RA.')
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
 
 class LaudoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
@@ -157,11 +224,18 @@ class AlunoUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 class LaudoUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Laudo
+    # remover o 'cadastrado_por' do fields
     fields = ['descricao', 'data', 'aluno']
     success_url = reverse_lazy('listar-laudo')
     success_message = "Laudo atualizado com sucesso!"
     extra_context = {'titulo': 'Atualização de Laudo', 'botao': 'Salvar'}
 
+    #Alterar o método que busca o objeto pelo ID (get_object)
+    def get_object(self, queryset=None):
+        #get_object_or_404 - busca o objeto ou retorna 404
+        obj = get_object_or_404(Laudo, pk=self.kwargs['pk'], cadastrado_por=self.request.user)
+        return obj
+     
 class InteracoesUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Interacoes
@@ -210,6 +284,12 @@ class LaudoDelete(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('listar-laudo')
     success_message = "Laudo excluído com sucesso!"
 
+        #Alterar o método que busca o objeto pelo ID (get_object)
+    def get_object(self, queryset=None):
+        #get_object_or_404 - busca o objeto ou retorna 404
+        obj = get_object_or_404(Laudo, pk=self.kwargs['pk'], cadastrado_por=self.request.user)
+        return obj
+
 class InteracoesDelete(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     template_name = 'paginas/form-excluir.html'
     model = Interacoes
@@ -243,6 +323,14 @@ class LaudoList(LoginRequiredMixin, ListView):
     model = Laudo
     template_name = "paginas/listas/laudo.html"
 
+    def get_queryset(self):
+       #Como fazer consultas/filtros no django
+       #Classe.object.all() - traz todos os objetos
+       #Classe.object.filter(atributo=valor, a2-v2) - filtra os objetos pelo campo e valor
+
+       qs = Laudo.objects.filter(cadastrado_por=self.request.user, data_nasc__year=2023)
+       return qs
+    
 class InteracoesList(LoginRequiredMixin, ListView):
     model = Interacoes
     template_name = "paginas/listas/interacoes.html"

@@ -1,5 +1,6 @@
 {% extends "paginas/modelo.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block titulo %}
 <title>Cadastrar Aluno</title>
@@ -9,9 +10,12 @@
 <div class="form-container cadastro">
     <form method="POST" action="">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- Usa o crispy para formatar o form-->
+         {{form|crispy}}
 
         <button type="submit">Cadastrar</button>
     </form>
 </div>
+
 {% endblock %}
