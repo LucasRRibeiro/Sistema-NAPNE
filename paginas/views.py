@@ -130,7 +130,7 @@ class AlunoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # o username do servidor é o nº do siape sem máscara
         username = form.cleaned_data['ra']
-        password = form.cleaned_data['ra']
+        password = form.cleaned_data['nome']
         # Verifica se já existe um usuário com esse username
         if not User.objects.filter(username=username).exists():
             # Se não existir, cria o usuário
@@ -323,19 +323,38 @@ class LaudoList(LoginRequiredMixin, ListView):
     model = Laudo
     template_name = "paginas/listas/laudo.html"
 
+class MeusLaudos(LaudoList):
     def get_queryset(self):
        #Como fazer consultas/filtros no django
        #Classe.object.all() - traz todos os objetos
        #Classe.object.filter(atributo=valor, a2-v2) - filtra os objetos pelo campo e valor
 
-       qs = Laudo.objects.filter(cadastrado_por=self.request.user, data_nasc__year=2023)
+       qs = Laudo.objects.filter(cadastrado_por=self.request.user)
        return qs
     
 class InteracoesList(LoginRequiredMixin, ListView):
     model = Interacoes
     template_name = "paginas/listas/interacoes.html"
 
+class MinhasInteracoes(InteracoesList):
+    def get_queryset(self):
+       #Como fazer consultas/filtros no django
+       #Classe.object.all() - traz todos os objetos
+       #Classe.object.filter(atributo=valor, a2-v2) - filtra os objetos pelo campo e valor
+
+       qs = Interacoes.objects.filter(cadastrado_por=self.request.user)
+       return qs
+    
 class IndicativoList(LoginRequiredMixin, ListView):
     model = Indicativo
     template_name = "paginas/listas/indicativo.html"
+
+class MeusIndicativos(IndicativoList):
+    def get_queryset(self):
+       #Como fazer consultas/filtros no django
+       #Classe.object.all() - traz todos os objetos
+       #Classe.object.filter(atributo=valor, a2-v2) - filtra os objetos pelo campo e valor
+
+       qs = Indicativo.objects.filter(cadastrado_por=self.request.user)
+       return qs
 
