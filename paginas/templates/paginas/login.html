@@ -31,15 +31,16 @@
       <div class="col-md-6">
         <div id="conteudo-fade" class="fade-in">
           {% block conteudo %}
-          <div class="form-container login">
+          <div class="form-container login" id="form-login">
 
             <div class="conteudo-esquerda px-4">
                 <img src="{% static 'img/marca-cnapne_horizontal-1.png' %}" alt="Logo CNAPNE" class="img-fluid mb-4"
                     >
             </div>
 
-            <form method="POST" action=""> {% csrf_token %} {{ form.as_p }}
-              <p class="text-right mt-2 fade-in" id="mensagem-cadastro" style="font-size: 0.7rem;">
+            <form method="POST" action="" > 
+              {% csrf_token %} {{ form.as_p }}
+              <p class="text-right mt-2 fade-in" id="mensagem-cadastro" style="font-size: 1.0rem;">
                 Não tem conta? <a href="{% url 'registrar' %}">Clique aqui </a></p>
               <button type="submit">Entrar</button>
             </form>

@@ -123,10 +123,63 @@ footer {
     text-align: justify;
 }
 
+#form-login {
+  max-width: 1000px;
+  height: 700px;
+  width: 130%;
+  padding: 30px 25px;
+  background-color: rgb(252, 255, 223);
+  border-radius: 15px;
+  border: 3px solid green;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  margin: 0 auto;
+}
+
+#form-login::before {
+  content: "LOGIN";
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background-color: green;
+  color: white;
+  padding: 4px 12px;
+  font-weight: 700;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+
+#form-login form p {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+#form-login label {
+  display: block;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 6px;
+}
+
+#form-login input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#form-login input:focus {
+  outline: none;
+  border-color: #157347;
+  box-shadow: 0 0 3px rgba(21, 115, 71, 0.5);
+}
+
 .form-container {
     border: 3px solid green;      /* borda verde */
     border-radius: 15px 15px 15px 15px; /* cantos arredondados só na direita, ou use 15px com preto nas pontas */
-    border-color: green #000000 black black; /* borda verde com pontas pretas */
+    border-color: green green green green; /* borda verde com pontas pretas */
     background-color: rgb(252, 255, 223);
     padding: 30px;
     max-width: 600px;

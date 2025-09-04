@@ -70,8 +70,8 @@ class ServidorCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # o username do servidor é o nº do siape sem máscara
-        username = form.cleaned_data['siape']
-        password = form.cleaned_data['siape']
+        form.instance.siape
+        form.instance.siape
         # Verifica se já existe um usuário com esse username
         if not User.objects.filter(username=username).exists():
             # Se não existir, cria o usuário
@@ -99,8 +99,8 @@ class ResponsavelCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # o username do servidor é o nº do siape sem máscara
-        username = form.cleaned_data['nome']
-        password = form.cleaned_data['fone']
+        username = form.instance.cpf
+        password = form.instance.cpf
         # Verifica se já existe um usuário com esse username
         if not User.objects.filter(username=username).exists():
             # Se não existir, cria o usuário
@@ -129,8 +129,8 @@ class AlunoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # o username do servidor é o nº do siape sem máscara
-        username = form.cleaned_data['ra']
-        password = form.cleaned_data['nome']
+        username = form.instance.ra
+        password = form.instance.ra
         # Verifica se já existe um usuário com esse username
         if not User.objects.filter(username=username).exists():
             # Se não existir, cria o usuário
@@ -330,6 +330,18 @@ class MeusLaudos(LaudoList):
        #Classe.object.filter(atributo=valor, a2-v2) - filtra os objetos pelo campo e valor
 
        qs = Laudo.objects.filter(cadastrado_por=self.request.user)
+       return qs
+    
+class AlunosLaudos(LaudoList):
+    def get_queryset(self):
+
+       qs = Laudo.objects.filter(aluno__usuario=self.request.user)
+       return qs
+
+class ResponsavelLaudos(LaudoList):
+    def get_queryset(self):
+
+       qs = Laudo.objects.filter(aluno__responsavel__usuario=self.request.user)
        return qs
     
 class InteracoesList(LoginRequiredMixin, ListView):
