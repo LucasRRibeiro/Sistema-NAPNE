@@ -335,3 +335,22 @@ footer {
       .form-container { padding: 20px 15px; }
     }
 
+/* Container do input de senha */
+#id_password {
+  padding-right: 40px; /* espaço pro olho não sobrepor o texto */
+  position: relative;
+}
+
+/* Botão do olho */
+.toggle-password {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(170%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+  color: #666;
+}
