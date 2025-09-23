@@ -1,0 +1,41 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+
+{% block conteudo %}
+<h3 class="text-success mb-3">Lista de Cursos Registrados</h3>
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>Nome</th>
+                <th>Série</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curso in object_list %}
+            <tr>
+                <td>{{ curso.nome }}</td>
+                <td>{{ curso.serie }}</td>
+                <td>
+                    <a href="{% url 'editar-curso' curso.pk %}" class="btn btn-warning btn-sm me-1">✏️</a>
+                    <a href="{% url 'excluir-curso' curso.pk %}" class="btn btn-danger btn-sm">🗑️</a>
+                    <a href="{% url 'pdf-curso' curso.pk %}" class="btn btn-success btn-sm">📄</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center fst-italic">Nenhuma intervenção registrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'menu-listas' %}" class="btn btn-outline-success rounded-pill mt-4">
+    &larr; Voltar para o Menu de Listas
+</a>
+
+{% endblock %}

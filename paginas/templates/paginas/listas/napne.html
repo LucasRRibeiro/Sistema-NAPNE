@@ -22,6 +22,7 @@
                 <td>
                     <a href="{% url 'editar-napne' napne.pk %}" class="btn btn-warning btn-sm me-1">✏️</a>
                     <a href="{% url 'excluir-napne' napne.pk %}" class="btn btn-danger btn-sm">🗑️</a>
+                    <a href="{% url 'pdf-napne' napne.pk %}" class="btn btn-success btn-sm">📄</a>
                 </td>
             </tr>
             {% empty %}

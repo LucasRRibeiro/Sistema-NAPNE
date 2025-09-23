@@ -87,7 +87,73 @@
                 </div>
             </div>
         </div>
+
+    <!-- Card Intervencao -->
+    <div class="col">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">🗣️ Intervenções</h5>
+                <p class="card-text">Acompanhe as intervenções realizadas.</p>
+                <a href="{% url 'listar-intervencao' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
     </div>
+
+    <!-- Card PTE -->
+    <div class="col">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">📝 PTEs</h5>
+                <p class="card-text">Acompanhe os PTEs cadastrados.</p>
+                <a href="{% url 'listar-pte' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Relatórios PTE -->
+    <div class="col">   
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">📊 Relatórios PTE</h5>
+                <p class="card-text">Acompanhe os relatórios PTE gerados.</p>
+                <a href="{% url 'listar-relatorio-pte' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Curso -->
+    <div class="col">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">📚 Cursos</h5>
+                <p class="card-text">Acompanhe os cursos cadastrados.</p>
+                <a href="{% url 'listar-curso' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Disciplina -->
+    <div class="col">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">📖 Disciplinas</h5>
+                <p class="card-text">Acompanhe as disciplinas cadastradas.</p>
+                <a href="{% url 'listar-disciplina' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Professor -->
+    <div class="col">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-success">👩‍🏫 Professores</h5>
+                <p class="card-text">Acompanhe os professores cadastrados.</p>
+                <a href="{% url 'listar-professor' %}" class="btn btn-outline-success rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+ </div>
 
     <!-- Botão voltar -->
     <div class="text-center mt-5">

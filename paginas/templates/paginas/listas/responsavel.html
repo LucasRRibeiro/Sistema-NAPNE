@@ -13,8 +13,8 @@
                 <th>Endereço</th>
                 <th>Telefone</th>
                 <th>Email</th>
-                <th>CPF</th>
                 <th>Cidade</th>
+                <th>Cadastrado por</th>
                 <th>Opções</th>
             </tr>
         </thead>
@@ -25,11 +25,12 @@
                 <td>{{ responsavel.endereco }}</td>
                 <td>{{ responsavel.fone }}</td>
                 <td>{{ responsavel.email }}</td>
-                <td>{{ responsavel.cpf }}</td>
                 <td>{{ responsavel.cidade }}</td>
+                <td>{{ responsavel.usuario.username }}</td>
                 <td>
                     <a href="{% url 'editar-responsavel' responsavel.pk %}" class="btn btn-warning btn-sm me-1">✏️</a>
                     <a href="{% url 'excluir-responsavel' responsavel.pk %}" class="btn btn-danger btn-sm">🗑️</a>
+                    <a href="{% url 'pdf-responsavel' responsavel.pk %}" class="btn btn-success btn-sm">📄</a>
                 </td>
             </tr>
             {% empty %}

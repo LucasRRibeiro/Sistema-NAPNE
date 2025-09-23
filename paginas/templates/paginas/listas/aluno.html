@@ -12,17 +12,16 @@
             <tr>
                 <th>RA</th>
                 <th>Nome</th>
-                <th>Endereço</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Curso</th>
-                <th>Ano</th>
                 <th>CPF</th>
                 <th>RG</th>
-                <th>Cidade</th>
                 <th>Data de Nasc.</th>
-                <th>Laudo</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Cidade</th>
+                <th>Endereço</th>
                 <th>Responsável</th>
+                <th>Curso</th>
+                <th>Ano</th>
                 <th>Opções</th>
             </tr>
         </thead>
@@ -31,21 +30,21 @@
             <tr>
                 <td>{{ aluno.ra }}</td>
                 <td>{{ aluno.nome }}</td>
-                <td>{{ aluno.endereco }}</td>
-                <td>{{ aluno.fone }}</td>
-                <td>{{ aluno.email }}</td>
-                <td>{{ aluno.curso }}</td>
-                <td>{{ aluno.ano }}</td>
                 <td>{{ aluno.cpf }}</td>
                 <td>{{ aluno.rg }}</td>
-                <td>{{ aluno.cidade }}</td>
                 <td>{{ aluno.data_nasc|date:"d/m/Y" }}</td>
-                <td>{{ aluno.laudo }}</td>
+                <td>{{ aluno.email }}</td>
+                <td>{{ aluno.fone }}</td>
+                <td>{{ aluno.cidade }}</td>
+                <td>{{ aluno.endereco }}</td>
                 <td>{{ aluno.responsavel }}</td>
+                <td>{{ aluno.curso.nome }}</td>
+                <td>{{ aluno.curso.serie }}</td>
                 <td>
                     <a href="{% url 'editar-aluno' aluno.pk %}" class="btn btn-warning btn-sm me-1"
                         title="Editar">✏️</a>
                     <a href="{% url 'excluir-aluno' aluno.pk %}" class="btn btn-danger btn-sm" title="Excluir">🗑️</a>
+                    <a href="{% url 'pdf-aluno' aluno.pk %}" class="btn btn-success btn-sm" title="Gerar PDF">📄</a>
                 </td>
             </tr>
             {% empty %}

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<link rel="shortcut icon" type="image/png" href="{% static 'img/Icone-site.png' %}" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block titulo %}
+    <title>CNAPNE - IFPR</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ifpr.css' %}">
+
+    <style>
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Cabeçalho institucional -->
+    <header style="background-color: rgb(252, 255, 223);" class="py-2 px-4 border-bottom">
+        <a href="{% url 'index' %}"><img src="{% static 'img/reitoria-horizontal-1.png' %}" alt="Logo IFPR" height="60"></a>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="container my-5 flex-grow-1">
+
+        <!-- Exibição de mensagens de feedback -->
+        {% if messages %}
+        <div class="mb-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-relative" role="alert" style="padding-right: 2.5rem;">
+              {% if 'success' in message.tags %}
+                <span style="font-size: 1.25rem; margin-right: 0.5rem;">✅</span>
+              {% endif %}
+              {{ message }}
+              <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+
+       <div id="conteudo-fade" class="fade-in">
+    {% block conteudo %}
+    {% endblock %}
+</div>
+    </main>
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    {% block scripts %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const conteudo = document.getElementById('conteudo-fade');
+        setTimeout(() => {
+            conteudo.classList.add('visible');
+        }, 100);  // pequeno atraso para ativar transição
+    });
+</script>
+    {% endblock %}
+</body>
+
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+</div>
+<script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
+</html>
