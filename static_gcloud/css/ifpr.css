@@ -1,0 +1,356 @@
+
+/* 
+Cores do IFPR 
+*/
+.bg-ifpr {
+    background-color: #007834;
+}
+
+.text-ifpr {
+    color: #007834;
+}
+
+.border-ifpr {
+    border-color: #007834;
+}
+.bg-ifpr-escuro {
+    background-color: #315C23;
+}
+
+.text-ifpr-escuro {
+    color: #315C23;
+}
+
+.border-ifpr-escuro {
+    border-color: #315C23;
+}
+
+
+/* 
+Tamanhos diferentes para fontes 
+*/
+.font-75 {
+    font-size: 75%;
+}
+
+.font-115 {
+    font-size: 115%;
+}
+
+.font-125 {
+    font-size: 125%;
+}
+
+.font-150 {
+    font-size: 150%;
+}
+
+.font-175 {
+    font-size: 175%;
+}
+
+
+/* 
+Formatação do DataTable 
+*/
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child::before {
+    top: 15px !important;
+}
+
+
+/* 
+Personalização da Barra de menu pra ficar igual do site 
+*/
+.navbar {
+    padding: 0 !important;
+}
+
+.navbar .navbar-brand{
+    padding-left: 10px;
+}
+
+.navbar a.nav-link{
+    color: white !important;
+}
+
+.navbar .nav-item{
+    padding: 3px 5px;
+}
+
+.navbar .nav-item:hover{
+    background-color: #315C23;
+}
+
+
+/* 
+Alerta na validação dos formulários (login com senha errada, por exemplo) 
+*/
+.alert dl, .alert ol, .alert ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+/*
+Largura máxima das tabelas para não ficar mal formatada
+*/
+table td{
+    max-width: 500px;
+}
+
+.conteudo-esquerda {
+    padding-left: 40px; /* afasta os botões da linha verde */
+}
+
+footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.custom-card {
+    background-color: #f9fdf8;
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.custom-card h2 {
+    font-size: 1.8rem;
+    color: #157347;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+#form-login {
+  max-width: 1000px;
+  height: 700px;
+  width: 130%;
+  padding: 30px 25px;
+  background-color: rgb(252, 255, 223);
+  border-radius: 15px;
+  border: 3px solid green;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  margin: 0 auto;
+}
+
+#form-login::before {
+  content: "LOGIN";
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background-color: green;
+  color: white;
+  padding: 4px 12px;
+  font-weight: 700;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+
+#form-login form p {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+#form-login label {
+  display: block;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 6px;
+}
+
+#form-login input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#form-login input:focus {
+  outline: none;
+  border-color: #157347;
+  box-shadow: 0 0 3px rgba(21, 115, 71, 0.5);
+}
+
+.form-container {
+    border: 3px solid green;      /* borda verde */
+    border-radius: 15px 15px 15px 15px; /* cantos arredondados só na direita, ou use 15px com preto nas pontas */
+    border-color: green green green green; /* borda verde com pontas pretas */
+    background-color: rgb(252, 255, 223);
+    padding: 30px;
+    max-width: 600px;
+    margin: 2rem auto;
+    position: relative;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Caixinha no topo da borda com texto “CADASTRO” */
+  .form-container.cadastro::before {
+    content: "CADASTRO";
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    background: green;
+    color: white;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+  
+  .form-container {
+    position: relative; /* importante para o ::before funcionar */
+  }
+  
+  .form-container::before {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: white;
+    content: "";
+  }
+  
+  .form-container.cadastro::before {
+    content: "CADASTRO";
+    background: green;
+  }
+  
+  .form-container.login::before {
+    content: "LOGIN";
+    background: green;
+  }
+  
+  /* Botão estilizado */
+  .form-container button[type="submit"] {
+    background-color: #a3cef1; /* azul claro */
+    border: none;
+    color: #03396c;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-container button[type="submit"]:hover {
+    background-color: #74a9d8;
+    color: white;
+  }
+  
+  /* Para o form, deixe os campos com um pouco de espaçamento */
+  .form-container p {
+    margin-bottom: 1rem;
+  }
+
+.mensagem-cadastro {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #03396c; /* cor combinando com o botão/login */
+}
+    /* Mesma animação usada no modelo principal */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+      /* Formulário centralizado e compacto */
+    .form-container.login {
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 25px 20px;
+      background-color: rgb(252, 255, 223);
+      border-radius: 15px;
+      border: 3px solid green;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+     .form-container.login::before {
+      content: "LOGIN";
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      background-color: green;
+      color: white;
+      padding: 4px 12px;
+      font-weight: 700;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .form-container button[type="submit"] {
+      width: 100%;
+      margin-top: 15px;
+      background-color: #a3cef1;
+      border: none;
+      color: #03396c;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button[type="submit"]:hover {
+      background-color: #74a9d8;
+      color: white;
+    }
+
+    .mensagem-cadastro {
+      font-size: 0.85rem;
+      text-align: center;
+      margin: 10px 0 0 0;
+    }
+
+    /* Logo ajustada */
+    #logo-fade {
+      max-height: 300px;
+      width: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    @media (max-width: 768px) {
+      #logo-fade { max-height: 200px; margin-bottom: 15px; }
+      .form-container { padding: 20px 15px; }
+    }
+
+/* Container do input de senha */
+#id_password {
+  padding-right: 40px; /* espaço pro olho não sobrepor o texto */
+  position: relative;
+}
+
+/* Botão do olho */
+.toggle-password {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(170%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+  color: #666;
+}
