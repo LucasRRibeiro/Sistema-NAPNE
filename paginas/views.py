@@ -44,6 +44,9 @@ class SobreView(TemplateView):
     template_name = 'paginas/sobre.html'
 
 # VIEWS PROTEGIDAS
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'paginas/dashboard.html'
+
 class MenuView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu.html'
 

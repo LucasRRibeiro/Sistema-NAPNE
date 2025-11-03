@@ -24,11 +24,250 @@
         opacity: 1;
         transform: translateY(0);
     }
+        /* Botões de acessibilidade */
+        .accessibility-controls {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            z-index: 9999;
+            transform: translateY(-50%);
+        }
+        .accessibility-btn {
+            background: #fff;
+            border: 2px solid #333;
+            color: #333;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            display: block;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 6px;
+            line-height: 1;
+            text-align: center;
+        }
+        #accessibility-toggle {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+        .accessibility-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+        .accessibility-btn:focus {
+            outline: 2px solid #005fcc;
+        }
+        .accessibility-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .accessibility-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            max-height: 200px;
+        }
+        .high-contrast {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        .high-contrast a, .high-contrast .accessibility-btn {
+            color: #fff !important;
+            background: #222 !important;
+            border-color: #fff !important;
+        }
+        .high-contrast header {
+            background-color: #333 !important;
+        }
+        .high-contrast footer {
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+        /* Melhorias para formulários e campos */
+        .high-contrast input, .high-contrast textarea, .high-contrast select {
+            background: #222 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        .high-contrast input::placeholder, .high-contrast textarea::placeholder {
+            color: #ccc !important;
+        }
+        .high-contrast label {
+            color: #fff !important;
+        }
+        .high-contrast .form-control, .high-contrast .form-select {
+            background: #222 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        .high-contrast .btn {
+            background: #444 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        .high-contrast .btn:hover {
+            background: #666 !important;
+            color: #fff !important;
+        }
+        /* Melhorias para tabelas */
+        .high-contrast table, .high-contrast .table {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        .high-contrast th, .high-contrast td {
+            background: #222 !important;
+            color: #fff !important;
+            border: 1px solid #fff !important;
+        }
+        .high-contrast .table-striped tbody tr:nth-of-type(odd) {
+            background: #333 !important;
+        }
+        .high-contrast .table-hover tbody tr:hover {
+            background: #444 !important;
+            color: #fff !important;
+        }
+        /* Melhorias para cards e containers */
+        .high-contrast .card, .high-contrast .container, .high-contrast .row, .high-contrast .col {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        .high-contrast .card-header, .high-contrast .card-footer {
+            background: #333 !important;
+            color: #fff !important;
+            border-color: #fff !important;
+        }
+        .high-contrast .card-body {
+            background: #222 !important;
+            color: #fff !important;
+        }
+        /* Melhorias para alertas */
+        .high-contrast .alert {
+            background: #444 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        /* Melhorias para navegação */
+        .high-contrast .navbar, .high-contrast .nav {
+            background: #333 !important;
+        }
+        .high-contrast .nav-link {
+            color: #fff !important;
+        }
+        .high-contrast .nav-link:hover {
+            background: #555 !important;
+            color: #fff !important;
+        }
+        .font-large {
+            font-size: 1.15em !important;
+        }
+        .font-large * {
+            font-size: 1.15em !important;
+        }
+        .font-large .accessibility-btn {
+            font-size: 1rem !important;
+            width: 40px !important;
+            height: 40px !important;
+        }
+        /* Manter layout responsivo com fonte grande */
+        .font-large .container, .font-large .row, .font-large .col {
+            line-height: 1.4 !important;
+        }
+        .font-large .btn {
+            padding: 0.5rem 1rem !important;
+            line-height: 1.2 !important;
+        }
+        .font-large .table td, .font-large .table th {
+            padding: 0.75rem 0.5rem !important;
+            line-height: 1.3 !important;
+        }
+        .font-large .form-control {
+            padding: 0.5rem 0.75rem !important;
+            line-height: 1.3 !important;
+        }
+        .font-large .card-body {
+            padding: 1rem !important;
+        }
+        .font-xlarge {
+            font-size: 1.3em !important;
+        }
+        .font-xlarge * {
+            font-size: 1.3em !important;
+        }
+        .font-xlarge .accessibility-btn {
+            font-size: 1rem !important;
+            width: 40px !important;
+            height: 40px !important;
+        }
+        /* Manter layout responsivo com fonte extra grande */
+        .font-xlarge .container, .font-xlarge .row, .font-xlarge .col {
+            line-height: 1.5 !important;
+        }
+        .font-xlarge .btn {
+            padding: 0.6rem 1.2rem !important;
+            line-height: 1.2 !important;
+        }
+        .font-xlarge .table td, .font-xlarge .table th {
+            padding: 1rem 0.75rem !important;
+            line-height: 1.4 !important;
+        }
+        .font-xlarge .form-control {
+            padding: 0.75rem 1rem !important;
+            line-height: 1.4 !important;
+        }
+        .font-xlarge .card-body {
+            padding: 1.5rem !important;
+        }
+        /* Evitar quebras no layout */
+        .font-large .text-nowrap, .font-xlarge .text-nowrap {
+            white-space: normal !important;
+        }
+        .font-large .d-flex, .font-xlarge .d-flex {
+            flex-wrap: wrap !important;
+        }
+        .font-large .navbar-nav, .font-xlarge .navbar-nav {
+            flex-direction: column !important;
+        }
+        @media (min-width: 768px) {
+            .font-large .navbar-nav, .font-xlarge .navbar-nav {
+                flex-direction: row !important;
+            }
+        }
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 768px) {
+            .accessibility-controls {
+                left: 10px;
+            }
+            .accessibility-btn, #accessibility-toggle {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+                padding: 6px;
+            }
+        }
 </style>
 
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <!-- Botões de acessibilidade visual -->
+    <div class="accessibility-controls" aria-label="Ajustes Visuais">
+        <button class="accessibility-btn" id="accessibility-toggle" title="Abrir menu de acessibilidade" aria-label="Abrir menu de acessibilidade">⚙️</button>
+        <div class="accessibility-menu" id="accessibility-menu">
+            <button class="accessibility-btn" id="contrast-toggle" title="Alternar contraste" aria-label="Alternar contraste">🌓</button>
+            <button class="accessibility-btn" id="font-normal" title="Fonte normal" aria-label="Fonte normal">A</button>
+            <button class="accessibility-btn" id="font-large" title="Aumentar fonte" aria-label="Aumentar fonte">A+</button>
+            <button class="accessibility-btn" id="font-xlarge" title="Fonte extra grande" aria-label="Fonte extra grande">A++</button>
+        </div>
+    </div>
 
     <!-- Cabeçalho institucional -->
     <header style="background-color: rgb(252, 255, 223);" class="py-2 px-4 border-bottom">
@@ -73,6 +312,61 @@
         setTimeout(() => {
             conteudo.classList.add('visible');
         }, 100);  // pequeno atraso para ativar transição
+        
+        // Acessibilidade visual
+        const body = document.body;
+        const contrastBtn = document.getElementById('contrast-toggle');
+        const fontNormalBtn = document.getElementById('font-normal');
+        const fontLargeBtn = document.getElementById('font-large');
+        const fontXLargeBtn = document.getElementById('font-xlarge');
+
+        // Contraste WCAG AA
+        contrastBtn.addEventListener('click', function() {
+            body.classList.toggle('high-contrast');
+            localStorage.setItem('high-contrast', body.classList.contains('high-contrast'));
+        });
+
+        // Tamanho da fonte
+        fontNormalBtn.addEventListener('click', function() {
+            body.classList.remove('font-large', 'font-xlarge');
+            localStorage.setItem('font-size', 'normal');
+        });
+        fontLargeBtn.addEventListener('click', function() {
+            body.classList.add('font-large');
+            body.classList.remove('font-xlarge');
+            localStorage.setItem('font-size', 'large');
+        });
+        fontXLargeBtn.addEventListener('click', function() {
+            body.classList.add('font-xlarge');
+            body.classList.remove('font-large');
+            localStorage.setItem('font-size', 'xlarge');
+        });
+
+        // Restaurar preferências salvas
+        if (localStorage.getItem('high-contrast') === 'true') {
+            body.classList.add('high-contrast');
+        }
+        const fontSize = localStorage.getItem('font-size');
+        if (fontSize === 'large') {
+            body.classList.add('font-large');
+        } else if (fontSize === 'xlarge') {
+            body.classList.add('font-xlarge');
+        }
+
+        // Menu de acessibilidade expansível
+        const accessibilityToggle = document.getElementById('accessibility-toggle');
+        const accessibilityMenu = document.getElementById('accessibility-menu');
+        
+        accessibilityToggle.addEventListener('click', function() {
+            accessibilityMenu.classList.toggle('show');
+        });
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.accessibility-controls')) {
+                accessibilityMenu.classList.remove('show');
+            }
+        });
     });
 </script>
     {% endblock %}

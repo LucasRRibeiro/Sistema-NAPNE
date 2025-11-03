@@ -6,54 +6,21 @@
 {% endblock %}
 
 {% block conteudo %}
-<div class="container text-center py-5">
-    <h1 class="mb-4 text-success fw-bold">Bem-vindo ao Sistema de Gestão do NAPNE - IFPR</h1>
-
-    <p class="lead mb-5">
-        Este sistema foi desenvolvido para auxiliar na gestão das atividades do NAPNE, promovendo inclusão e
-        acessibilidade para todos os alunos.
-    </p>
-
-    <div class="d-grid gap-3 justify-content-center">
-
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'menu' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Menu de Cadastros
-        </a><br><br>
-        <a href="{% url 'menu-listas' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto"
-            style="width: 300px;">
-            Menu de Listas
-        </a>
-
-        <br><br>
-
-        <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Sobre o Sistema
-        </a><br><br>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-                Sair
-            </button>
-        </form>
-        {% else %}
-
-        <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto"
-            style="width: 300px;">
-            Cadastrar
-        </a><br><br>
-
-        <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Login
-        </a><br><br>
-
-        <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Sobre o Sistema
-        </a><br><br>
-        {% endif %}
-
-
-
+<div class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-md-7 text-center mb-4 mb-md-0">
+      <img src="{% static 'img/Tela_Inicio(1).png' %}" class="img-fluid rounded" alt="Tela de Início" style="">
     </div>
+    <div class="col-md-5 text-center">
+      <h1 class="mb-3 text-success fw-bold">Bem-vindo ao Sistema de Gestão do NAPNE - IFPR</h1>
+      <p class="lead mb-4">Este sistema foi desenvolvido para auxiliar na gestão das atividades do NAPNE, promovendo inclusão e acessibilidade para todos os alunos.</p>
+
+      <div class="d-grid gap-3 justify-content-center mx-auto" style="max-width:300px;">
+        <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Cadastrar</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Login</a>
+        <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Sobre o Sistema</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

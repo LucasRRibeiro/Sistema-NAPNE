@@ -1,0 +1,39 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+
+{% block titulo %}
+<title>Dashboard - Sistema NAPNE</title>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container text-center py-5">
+    <h1 class="mb-4 text-success fw-bold">Bem-vindo ao Sistema de Gestão do NAPNE - IFPR</h1>
+
+    <p class="lead mb-5">
+        Este sistema foi desenvolvido para auxiliar na gestão das atividades do NAPNE, promovendo inclusão e
+        acessibilidade para todos os alunos.
+    </p>
+
+    <div class="d-grid gap-3 justify-content-center">
+        <a href="{% url 'menu' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+            Menu de Cadastros
+        </a><br><br>
+        <a href="{% url 'menu-listas' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto"
+            style="width: 300px;">
+            Menu de Listas
+        </a>
+
+        <br><br>
+
+        <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+            Sobre o Sistema
+        </a><br><br>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+                Sair
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
