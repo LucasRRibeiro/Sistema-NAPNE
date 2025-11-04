@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     #Instalar o crispy forms e p crispy Bootstrap 5
     "crispy_forms",
     "crispy_bootstrap5",
+    
+    # Django Braces
+    "braces",
 ]
 
 # Configurar o crispy forms com o Bootstrap 5

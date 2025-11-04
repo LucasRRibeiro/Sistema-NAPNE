@@ -14,13 +14,12 @@ urlpatterns = [
 
     path("registrar/", CadastroUsuarioView.as_view(), name="registrar"),
 
-    #Criar rota para página de login
+    #Criar rota para página de login (redirect_authenticated_user=True - foi removido pelo controle de grupo)
     path('login/', auth_views.LoginView.as_view(
         template_name = 'paginas/login.html',
          extra_context = {
             'titulo': 'Autenticação',
             'botao': 'Entrar'},
-        redirect_authenticated_user=True
     ), name="login"),
 
     path('atualizar/senha/', auth_views.PasswordChangeView.as_view(

@@ -1,49 +1,55 @@
 {% extends "paginas/modelo2.html" %}
 {% load static %}
 
+{% block titulo %}
+<title>Relatório de Interações - NAPNE IFPR</title>
+{% endblock %}
+
 {% block conteudo %}
-<div class="container my-4">
-    <h3 class="text-center">Plano de Trabalho - Interação</h3>
+<div class="pdf-page">
+    <div class="pdf-content">
+        <h3 class="text-center">Plano de Trabalho - Interação</h3>
 
+        <hr class="my-4">
 
-    <hr class="my-4">
+        <!-- 1. Identificação da Interação -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+            <tr style="background-color: #d9ead3; font-weight: bold;">
+                <td colspan="2" style="border: 1px solid #000; padding: 5px;">1. DADOS DA INTERAÇÃO</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px; width: 50%;">Descrição</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.descricao }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Data da Interação</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.data|date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Aluno</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.aluno.nome }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">RA do Aluno</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.aluno.ra }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Professor</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.nome }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Disciplina</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.disciplina.nome }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000; padding: 5px;">Curso</td>
+                <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.disciplina.curso.nome }} - {{ interacoes.professor.disciplina.curso.serie }}º</td>
+            </tr>
+        </table>
+    </div>
 
-    <!-- 1. Identificação da Interação -->
-    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-        <tr style="background-color: #d9ead3; font-weight: bold;">
-            <td colspan="2" style="border: 1px solid #000; padding: 5px;">1. DADOS DA INTERAÇÃO</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px; width: 50%;">Descrição</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.descricao }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">Data da Interação</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.data|date:"d/m/Y" }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">Aluno</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.aluno.nome }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">RA do Aluno</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.aluno.ra }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">Professor</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.nome }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">Disciplina</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.disciplina.nome }}</td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000; padding: 5px;">Curso</td>
-            <td style="border: 1px solid #000; padding: 5px;">{{ interacoes.professor.disciplina.curso.nome }} - {{ interacoes.professor.disciplina.curso.serie }}º</td>
-        </tr>
-    </table>
-
-    <div class="mt-4">
+    <!-- Data e assinatura no final -->
+    <div class="pdf-footer">
         <p>Paranavaí, ____/____/____</p>
         <div style="text-align: center; margin-top: 50px;">
             <div style="border-top: 1px solid black; width: 200px; margin: 0 auto;"></div>
@@ -51,19 +57,83 @@
         </div>
     </div>
 
-    <a href="{% url 'listar-interacoes' %}" class="btn btn-outline-secondary mt-3 no-print">&larr; Voltar</a>
-
-    <!-- Botão Gerar PDF -->
-    <button onclick="window.print()" class="btn btn-primary mt-3 no-print">
-        📄 Gerar PDF
-    </button>
+    <div class="no-print">
+        <a href="{% url 'listar-interacoes' %}" class="btn btn-outline-secondary mt-3">&larr; Voltar</a>
+        <button onclick="window.print()" class="btn btn-primary mt-3">
+            📄 Gerar PDF
+        </button>
+    </div>
 </div>
 
 <style>
-    /* Esconder elementos com a classe no-print na impressão */
+    /* Layout flexível para tela */
+    .pdf-page {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        margin: 0 auto;
+        max-width: 800px;
+        position: relative;
+    }
+
+    .pdf-content {
+        flex-grow: 1;
+        margin-bottom: 120px; /* Espaço para o footer */
+    }
+
+    .pdf-footer {
+        margin-top: auto;
+    }
+
+    /* Estilos específicos para impressão */
     @media print {
         .no-print {
             display: none !important;
+        }
+
+        .pdf-page {
+            max-width: none;
+            margin: 0;
+            padding: 30px 20px 120px 20px; /* padding-bottom maior para espaço do footer */
+            height: auto;
+            min-height: calc(100vh - 150px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-content {
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+
+        .pdf-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            margin-top: auto;
+        }
+
+        /* Evitar quebras de página desnecessárias */
+        table {
+            page-break-inside: avoid;
+        }
+        
+        h3 {
+            page-break-after: avoid;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Configuração da página */
+        @page {
+            margin: 0;
+            size: A4;
         }
     }
 </style>

@@ -20,18 +20,50 @@
   </header>
 
   <!-- Conteúdo principal -->
-  <main class="container my-5 flex-grow-1">
+  <main class="{% if user.is_authenticated %}container-fluid d-flex align-items-center justify-content-center flex-grow-1{% else %}container my-5 flex-grow-1{% endif %}">
 
-    <div class="row align-items-center">
+    <div class="row align-items-center {% if user.is_authenticated %}w-100{% endif %}">
 
+      {% if not user.is_authenticated %}
       <div class="col-md-6 text-center mb-4 mb-md-0 d-flex overflow: hidden; justify-content-start">
         <img src="{% static 'img/logo_napne.png' %}" alt="Logo NAPNE" class="img-fluid fade-in" id="logo-fade"
           style="max-height: 800px; width: auto; margin-left: -250px;">
       </div>
+      {% endif %}
 
-      <div class="col-md-6">
+      <div class="{% if user.is_authenticated %}col-12{% else %}col-md-6{% endif %}">
         <div id="conteudo-fade" class="fade-in">
           {% block conteudo %}
+          
+          {% if user.is_authenticated %}
+          <!-- Mensagem para usuário já logado sem permissão -->
+          <div class="col-12 d-flex justify-content-center">
+            <div style="max-width: 500px; width: 100%;">
+              <div class="card shadow-lg border-0">
+                <div class="card-body text-center p-4" style="background: linear-gradient(135deg, #dc3545, #c82333); border-radius: 0.5rem;">
+                  <h3 class="text-white mb-3" style="font-size: 1.8rem; font-weight: bold;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Ação não permitida
+                  </h3>
+                  <hr class="border-white my-3 mx-4" style="opacity: 0.7;">
+                  <p class="text-white mb-0" style="font-size: 1.1rem;">
+                    Houve algum problema para processar a ação desejada ou você não tem permissão para isso.
+                  </p>
+                </div>
+              </div>
+              
+              <div class="text-center mt-4">
+                <a href="{% url 'tela-inicio' %}" class="btn btn-success btn-lg me-3">
+                  <i class="bi bi-house-fill me-2"></i>Voltar ao Início
+                </a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-lg">
+                  <i class="bi bi-box-arrow-right me-2"></i>Sair da Conta
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          {% else %}
+          <!-- Formulário de login padrão -->
           <div class="form-container login" id="form-login">
 
             <div class="conteudo-esquerda px-4">
@@ -50,6 +82,8 @@
               <button type="submit">Entrar</button>
             </form>
           </div>
+          {% endif %}
+          
         </div>
       </div>
       {% endblock %}
@@ -90,26 +124,30 @@
     conteudo.classList.add('visible');
   }, 100);
 
-  // Logo
+  // Logo (apenas se existir)
   const logo = document.getElementById('logo-fade');
-  setTimeout(() => {
-    logo.classList.add('visible');
-  }, 300); // atraso ligeiro para um efeito em cascata
+  if (logo) {
+    setTimeout(() => {
+      logo.classList.add('visible');
+    }, 300); // atraso ligeiro para um efeito em cascata
+  }
 
-  // Mensagem de cadastro
+  // Mensagem de cadastro (apenas se existir)
   const mensagem = document.getElementById('mensagem-cadastro');
-  setTimeout(() => {
-    mensagem.classList.add('visible');
-  }, 500); // aparece depois do formulário e da logo
+  if (mensagem) {
+    setTimeout(() => {
+      mensagem.classList.add('visible');
+    }, 500); // aparece depois do formulário e da logo
+  }
 </script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const toggleBtn = document.getElementById("toggle-password");
     const passwordField = document.getElementById("id_password");
-    const icon = toggleBtn.querySelector("i");
+    const icon = toggleBtn ? toggleBtn.querySelector("i") : null;
 
-    if (passwordField && toggleBtn) {
+    if (passwordField && toggleBtn && icon) {
       toggleBtn.addEventListener("click", () => {
         if (passwordField.type === "password") {
           passwordField.type = "text";
