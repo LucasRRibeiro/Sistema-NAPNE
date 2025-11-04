@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import IndexView, SobreView, MenuView, MenuListasView, DashboardView
+from .views import IndexView, SobreView, MenuView, MenuListasView, TelaInicioView
 from .views import LaudoCreate, NapneCreate, ResponsavelCreate, IndicativoCreate, AlunoCreate, InteracoesCreate, IntervencaoCreate, ServidorCreate, CursoCreate, DisciplinaCreate, ProfessorCreate ,PteCreate, RelatorioPteCreate
 from .views import LaudoUpdate, NapneUpdate, ResponsavelUpdate, IndicativoUpdate, AlunoUpdate, InteracoesUpdate, IntervencaoUpdate, ServidorUpdate, CursoUpdate, DisciplinaUpdate, ProfessorUpdate, PteUpdate, RelatorioPteUpdate
 from .views import LaudoDelete, NapneDelete, ResponsavelDelete, IndicativoDelete, AlunoDelete, InteracoesDelete, IntervencaoDelete, ServidorDelete, CursoDelete, DisciplinaDelete, ProfessorDelete, PteDelete, RelatorioPteDelete
@@ -37,7 +37,7 @@ urlpatterns = [
     path('sair/', auth_views.LogoutView.as_view(), name="logout"),
     
     path('', IndexView.as_view(), name="index"), # URL para a página inicial pública
-    path('dashboard/', DashboardView.as_view(), name="dashboard"), # URL para após login
+    path('tela/inicio/', TelaInicioView.as_view(), name="tela-inicio"), # URL para após login
     path('sobre/', SobreView.as_view(), name="sobre"),
     path('menu/', MenuView.as_view(), name="menu"),
     path('menu/listas/', MenuListasView.as_view(), name="menu-listas"),

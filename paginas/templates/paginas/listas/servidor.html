@@ -5,6 +5,148 @@
 <h3 class="text-success mb-3">Lista de Servidores Registrados</h3>
 <hr>
 
+<!-- Seção de Pesquisa e Filtros -->
+<div class="mb-4" style="margin-top: 2rem;">
+    <div class="card border-success">
+        <div class="card-header bg-success text-white" style="cursor: pointer;" onclick="toggleFiltrosSection()">
+            <h5 class="mb-0">
+                <i class="fa fa-search me-2"></i>Pesquisar e Filtrar
+                <i class="fa fa-chevron-down float-end" id="chevron-icon"></i>
+            </h5>
+        </div>
+        <div class="card-body" id="filtros-content" style="display: none;">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <label for="filtro_tipo" class="form-label fw-bold text-success">Tipo de Filtro</label>
+                    <select class="form-select border-success" id="filtro_tipo" name="filtro_tipo" onchange="toggleFiltrosServidor()">
+                        <option value="">Selecione o tipo de filtro</option>
+                        <option value="nome" {% if request.GET.filtro_tipo == 'nome' %}selected{% endif %}>Nome</option>
+                        <option value="siape" {% if request.GET.filtro_tipo == 'siape' %}selected{% endif %}>SIAPE</option>
+                        <option value="email" {% if request.GET.filtro_tipo == 'email' %}selected{% endif %}>Email</option>
+                        <option value="tipo" {% if request.GET.filtro_tipo == 'tipo' %}selected{% endif %}>Tipo de Servidor</option>
+                        <option value="todos" {% if request.GET.filtro_tipo == 'todos' %}selected{% endif %}>Todos os Filtros</option>
+                    </select>
+                </div>
+                
+                <!-- Filtros individuais -->
+                <div class="col-md-9">
+                    <div id="filtro_nome" class="filtro-campo" style="display: {% if request.GET.filtro_tipo == 'nome' %}block{% else %}none{% endif %};">
+                        <label for="nome" class="form-label fw-bold text-success">Nome</label>
+                        <input type="text" class="form-control border-success" id="nome" name="nome" 
+                               placeholder="Digite o nome do servidor..." value="{{ request.GET.nome }}">
+                    </div>
+                    
+                    <div id="filtro_siape" class="filtro-campo" style="display: {% if request.GET.filtro_tipo == 'siape' %}block{% else %}none{% endif %};">
+                        <label for="siape" class="form-label fw-bold text-success">SIAPE</label>
+                        <input type="text" class="form-control border-success" id="siape" name="siape" 
+                               placeholder="Digite o SIAPE..." value="{{ request.GET.siape }}">
+                    </div>
+                    
+                    <div id="filtro_email" class="filtro-campo" style="display: {% if request.GET.filtro_tipo == 'email' %}block{% else %}none{% endif %};">
+                        <label for="email" class="form-label fw-bold text-success">Email</label>
+                        <input type="email" class="form-control border-success" id="email" name="email" 
+                               placeholder="Digite o email..." value="{{ request.GET.email }}">
+                    </div>
+                    
+                    <div id="filtro_tipo" class="filtro-campo" style="display: {% if request.GET.filtro_tipo == 'tipo' %}block{% else %}none{% endif %};">
+                        <label for="tipo" class="form-label fw-bold text-success">Tipo de Servidor</label>
+                        <select class="form-select border-success" id="tipo" name="tipo">
+                            <option value="">Todos os tipos</option>
+                            <option value="Docente" {% if request.GET.tipo == 'Docente' %}selected{% endif %}>Docente</option>
+                            <option value="TAE" {% if request.GET.tipo == 'TAE' %}selected{% endif %}>TAE</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Todos os filtros -->
+                    <div id="filtro_todos" style="display: {% if request.GET.filtro_tipo == 'todos' %}block{% else %}none{% endif %};">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="nome_todos" class="form-label fw-bold text-success">Nome</label>
+                                <input type="text" class="form-control border-success" id="nome_todos" name="nome" 
+                                       placeholder="Digite o nome..." value="{{ request.GET.nome }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="siape_todos" class="form-label fw-bold text-success">SIAPE</label>
+                                <input type="text" class="form-control border-success" id="siape_todos" name="siape" 
+                                       placeholder="Digite o SIAPE..." value="{{ request.GET.siape }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="email_todos" class="form-label fw-bold text-success">Email</label>
+                                <input type="email" class="form-control border-success" id="email_todos" name="email" 
+                                       placeholder="Digite o email..." value="{{ request.GET.email }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tipo_todos" class="form-label fw-bold text-success">Tipo</label>
+                                <select class="form-select border-success" id="tipo_todos" name="tipo">
+                                    <option value="">Todos os tipos</option>
+                                    <option value="Docente" {% if request.GET.tipo == 'Docente' %}selected{% endif %}>Docente</option>
+                                    <option value="TAE" {% if request.GET.tipo == 'TAE' %}selected{% endif %}>TAE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="fa fa-search me-2"></i>Pesquisar
+                        </button>
+                        <a href="{% url 'listar-servidor' %}" class="btn btn-outline-success px-4">
+                            <i class="fa fa-refresh me-2"></i>Limpar Filtros
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Função para abrir/fechar a seção de filtros
+function toggleFiltrosSection() {
+    const content = document.getElementById('filtros-content');
+    const icon = document.getElementById('chevron-icon');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.className = 'fa fa-chevron-up float-end';
+    } else {
+        content.style.display = 'none';
+        icon.className = 'fa fa-chevron-down float-end';
+    }
+}
+
+// Função para alternar os filtros internos
+function toggleFiltrosServidor() {
+    const tipoFiltro = document.getElementById('filtro_tipo').value;
+    const campos = document.querySelectorAll('.filtro-campo');
+    const todosCampo = document.getElementById('filtro_todos');
+    
+    // Esconder todos os campos
+    campos.forEach(campo => campo.style.display = 'none');
+    todosCampo.style.display = 'none';
+    
+    // Mostrar campo selecionado
+    if (tipoFiltro && tipoFiltro !== 'todos') {
+        const campoSelecionado = document.getElementById('filtro_' + tipoFiltro);
+        if (campoSelecionado) {
+            campoSelecionado.style.display = 'block';
+        }
+    } else if (tipoFiltro === 'todos') {
+        todosCampo.style.display = 'block';
+    }
+}
+
+// Se há filtros aplicados, mostrar a seção aberta
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('filtro_tipo') || urlParams.has('nome') || urlParams.has('siape') || urlParams.has('email') || urlParams.has('tipo')) {
+        toggleFiltrosSection();
+    }
+});
+</script>
+
 <div class="table-responsive">
     <table class="table table-striped table-bordered align-middle">
         <thead class="table-success">

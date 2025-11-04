@@ -7,15 +7,23 @@
 
 {% block conteudo %}
 <div class="container py-5">
-  <div class="row align-items-center">
-    <div class="col-md-7 text-center mb-4 mb-md-0">
-      <img src="{% static 'img/Tela_Inicio(1).png' %}" class="img-fluid rounded" alt="Tela de Início" style="">
+  <div class="row align-items-center justify-content-center">
+    <!-- Imagem à esquerda -->
+    <div class="col-md-6 text-center mb-4 mb-md-0">
+      <img src="{% static 'img/Tela_Inicio(1).png' %}" class="img-fluid rounded" alt="Tela de Início">
     </div>
-    <div class="col-md-5 text-center">
-      <h1 class="mb-3 text-success fw-bold">Bem-vindo ao Sistema de Gestão do NAPNE - IFPR</h1>
-      <p class="lead mb-4">Este sistema foi desenvolvido para auxiliar na gestão das atividades do NAPNE, promovendo inclusão e acessibilidade para todos os alunos.</p>
 
-      <div class="d-grid gap-3 justify-content-center mx-auto" style="max-width:300px;">
+    <!-- Texto e botões à direita -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center text-center">
+      <h1 class="mb-4 text-success fw-bold" style="font-size: 1.8rem;">
+        Bem-vindo ao Sistema de Gestão do NAPNE - IFPR
+      </h1>
+      <p class="lead mb-4 mx-auto" style="max-width: 400px; text-align: justify; text-justify: inter-word;">
+        Este sistema foi desenvolvido para auxiliar na gestão das atividades do NAPNE, promovendo inclusão e acessibilidade para todos os alunos.
+      </p>
+
+      <!-- Botões centralizados -->
+      <div class="d-flex flex-column align-items-center" style="gap: 1.3rem;">
         <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Cadastrar</a>
         <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Login</a>
         <a href="{% url 'sobre' %}" class="btn btn-outline-success btn-lg rounded-pill" style="width: 300px;">Sobre o Sistema</a>

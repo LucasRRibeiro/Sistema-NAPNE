@@ -44,8 +44,8 @@ class SobreView(TemplateView):
     template_name = 'paginas/sobre.html'
 
 # VIEWS PROTEGIDAS
-class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'paginas/dashboard.html'
+class TelaInicioView(LoginRequiredMixin, TemplateView):
+    template_name = 'paginas/tela-inicio.html'
 
 class MenuView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/menu.html'
@@ -545,22 +545,109 @@ class RelatorioPteDelete(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
 class NapneList(LoginRequiredMixin, ListView):
     model = Napne
     template_name = "paginas/listas/napne.html"
+    
+    def get_queryset(self):
+        queryset = Napne.objects.all()
+        
+        # Filtros de pesquisa
+        descricao = self.request.GET.get('descricao')
+        data_inicio = self.request.GET.get('data_inicio')
+        data_fim = self.request.GET.get('data_fim')
+        
+        if descricao:
+            queryset = queryset.filter(descricao__icontains=descricao)
+        if data_inicio:
+            queryset = queryset.filter(data_criacao__gte=data_inicio)
+        if data_fim:
+            queryset = queryset.filter(data_criacao__lte=data_fim)
+            
+        return queryset.order_by('-data_criacao')
 
 class ServidorList(LoginRequiredMixin, ListView):
     model = Servidor
-    template_name = "paginas/listas/servidor.html"  
+    template_name = "paginas/listas/servidor.html"
+    
+    def get_queryset(self):
+        queryset = Servidor.objects.all()
+        
+        # Filtros de pesquisa
+        nome = self.request.GET.get('nome')
+        siape = self.request.GET.get('siape')
+        email = self.request.GET.get('email')
+        tipo = self.request.GET.get('tipo')
+        
+        if nome:
+            queryset = queryset.filter(nome__icontains=nome)
+        if siape:
+            queryset = queryset.filter(siape__icontains=siape)
+        if email:
+            queryset = queryset.filter(email__icontains=email)
+        if tipo:
+            queryset = queryset.filter(tipo=tipo)
+            
+        return queryset.order_by('nome')  
 
 class ResponsavelList(LoginRequiredMixin, ListView):
     model = Responsavel
     template_name = "paginas/listas/responsavel.html"
+    
+    def get_queryset(self):
+        queryset = Responsavel.objects.all()
+        
+        # Filtros de pesquisa
+        nome = self.request.GET.get('nome')
+        email = self.request.GET.get('email')
+        cidade = self.request.GET.get('cidade')
+        
+        if nome:
+            queryset = queryset.filter(nome__icontains=nome)
+        if email:
+            queryset = queryset.filter(email__icontains=email)
+        if cidade:
+            queryset = queryset.filter(cidade__icontains=cidade)
+            
+        return queryset.order_by('nome')
 
 class CursoList(LoginRequiredMixin, ListView):
     model = Curso
     template_name = "paginas/listas/curso.html"
+    
+    def get_queryset(self):
+        queryset = Curso.objects.all()
+        
+        # Filtros de pesquisa
+        nome = self.request.GET.get('nome')
+        serie = self.request.GET.get('serie')
+        
+        if nome:
+            queryset = queryset.filter(nome__icontains=nome)
+        if serie:
+            queryset = queryset.filter(serie=serie)
+            
+        return queryset.order_by('nome')
 
 class DisciplinaList(LoginRequiredMixin, ListView):
     model = Disciplina
     template_name = "paginas/listas/disciplina.html"
+    
+    def get_queryset(self):
+        queryset = Disciplina.objects.all()
+        
+        # Filtros de pesquisa
+        nome = self.request.GET.get('nome')
+        curso = self.request.GET.get('curso')
+        
+        if nome:
+            queryset = queryset.filter(nome__icontains=nome)
+        if curso:
+            queryset = queryset.filter(curso_id=curso)
+            
+        return queryset.order_by('nome')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cursos'] = Curso.objects.all().order_by('nome')
+        return context
 
 class ProfessorList(LoginRequiredMixin, ListView):
     model = Professor
@@ -569,10 +656,52 @@ class ProfessorList(LoginRequiredMixin, ListView):
 class AlunoList(LoginRequiredMixin, ListView):
     model = Aluno
     template_name = "paginas/listas/aluno.html"
+    
+    def get_queryset(self):
+        queryset = Aluno.objects.all()
+        
+        # Filtros de pesquisa
+        nome = self.request.GET.get('nome')
+        ra = self.request.GET.get('ra')
+        cidade = self.request.GET.get('cidade')
+        curso = self.request.GET.get('curso')
+        
+        if nome:
+            queryset = queryset.filter(nome__icontains=nome)
+        if ra:
+            queryset = queryset.filter(ra__icontains=ra)
+        if cidade:
+            queryset = queryset.filter(cidade__icontains=cidade)
+        if curso:
+            queryset = queryset.filter(curso_id=curso)
+            
+        return queryset.order_by('nome')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cursos'] = Curso.objects.all().order_by('nome')
+        return context
 
 class LaudoList(LoginRequiredMixin, ListView):
     model = Laudo
     template_name = "paginas/listas/laudo.html"
+    
+    def get_queryset(self):
+        queryset = Laudo.objects.all()
+        
+        # Filtros de pesquisa
+        descricao = self.request.GET.get('descricao')
+        data_inicio = self.request.GET.get('data_inicio')
+        data_fim = self.request.GET.get('data_fim')
+        
+        if descricao:
+            queryset = queryset.filter(descricao__icontains=descricao)
+        if data_inicio:
+            queryset = queryset.filter(data__gte=data_inicio)
+        if data_fim:
+            queryset = queryset.filter(data__lte=data_fim)
+            
+        return queryset.order_by('-data')
 
 class MeusLaudos(LaudoList):
     def get_queryset(self):

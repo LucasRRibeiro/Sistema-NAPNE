@@ -5,7 +5,119 @@
 <h3 class="text-success mb-3">Lista de Disciplinas Registradas</h3>
 <hr>
 
-<div class="table-responsive">
+<!-- Seção de Pesquisa e Filtros -->
+<div class="mb-4" style="margin-top: 2rem;">
+    <div class="card border-success">
+        <div class="card-header bg-success text-white" style="cursor: pointer;" onclick="toggleFiltrosSection()">
+            <h5 class="mb-0">
+                <i class="fa fa-search me-2"></i>Pesquisar e Filtrar
+                <i class="fa fa-chevron-down float-end" id="chevron-icon"></i>
+            </h5>
+        </div>
+        <div class="card-body" id="filtros-content" style="display: none;">
+        <form method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label for="filtro_tipo" class="form-label fw-bold text-success">Tipo de Filtro</label>
+                <select class="form-select border-success" id="filtro_tipo" name="filtro_tipo" onchange="toggleFiltrosDisciplina()">
+                    <option value="">Selecione o tipo de filtro</option>
+                    <option value="nome" {% if request.GET.filtro_tipo == 'nome' %}selected{% endif %}>Nome da Disciplina</option>
+                    <option value="curso" {% if request.GET.filtro_tipo == 'curso' %}selected{% endif %}>Curso</option>
+                    <option value="todos" {% if request.GET.filtro_tipo == 'todos' %}selected{% endif %}>Todos os Filtros</option>
+                </select>
+            </div>
+            
+            <!-- Filtros individuais -->
+            <div class="col-md-9">
+                <div id="filtro_nome" class="filtro-campo" style="display: none;">
+                    <label for="nome" class="form-label fw-bold text-success">Nome da Disciplina</label>
+                    <input type="text" class="form-control border-success" id="nome" name="nome" 
+                           placeholder="Digite o nome da disciplina..." value="{{ request.GET.nome }}">
+                </div>
+                
+                <div id="filtro_curso" class="filtro-campo" style="display: none;">
+                    <label for="curso" class="form-label fw-bold text-success">Curso</label>
+                    <select class="form-select border-success" id="curso" name="curso">
+                        <option value="">Todos os cursos</option>
+                        {% for curso in cursos %}
+                            <option value="{{ curso.id }}" {% if request.GET.curso == curso.id|stringformat:"s" %}selected{% endif %}>
+                                {{ curso.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Todos os filtros -->
+                <div id="filtro_todos" style="display: none;">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nome_todos" class="form-label fw-bold text-success">Nome da Disciplina</label>
+                            <input type="text" class="form-control border-success" id="nome_todos" name="nome" 
+                                   placeholder="Digite o nome da disciplina..." value="{{ request.GET.nome }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="curso_todos" class="form-label fw-bold text-success">Curso</label>
+                            <select class="form-select border-success" id="curso_todos" name="curso">
+                                <option value="">Todos os cursos</option>
+                                {% for curso in cursos %}
+                                    <option value="{{ curso.id }}" {% if request.GET.curso == curso.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ curso.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Função para abrir/fechar a seção de filtros
+function toggleFiltrosSection() {
+    const content = document.getElementById('filtros-content');
+    const icon = document.getElementById('chevron-icon');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.className = 'fa fa-chevron-up float-end';
+    } else {
+        content.style.display = 'none';
+        icon.className = 'fa fa-chevron-down float-end';
+    }
+}
+
+// Função para alternar os filtros internos
+function toggleFiltrosDisciplina() {
+    const tipoFiltro = document.getElementById('filtro_tipo').value;
+    const campos = document.querySelectorAll('.filtro-campo');
+    const todosCampo = document.getElementById('filtro_todos');
+    
+    // Esconder todos os campos
+    campos.forEach(campo => campo.style.display = 'none');
+    todosCampo.style.display = 'none';
+    
+    // Mostrar campo selecionado
+    if (tipoFiltro && tipoFiltro !== 'todos') {
+        const campoSelecionado = document.getElementById('filtro_' + tipoFiltro);
+        if (campoSelecionado) {
+            campoSelecionado.style.display = 'block';
+        }
+    } else if (tipoFiltro === 'todos') {
+        todosCampo.style.display = 'block';
+    }
+}
+
+// Se há filtros aplicados, mostrar a seção aberta
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('filtro_tipo') || urlParams.has('nome') || urlParams.has('curso')) {
+        toggleFiltrosSection();
+    }
+});
+</script>
+
+<div class="table-responsive mt-4">
     <table class="table table-striped table-bordered align-middle">
         <thead class="table-success">
             <tr>
