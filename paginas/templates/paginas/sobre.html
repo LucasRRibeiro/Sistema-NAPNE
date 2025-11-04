@@ -37,9 +37,15 @@
 
             <!-- Botão de Voltar -->
             <div class="text-center mt-5">
-                <a href="{% url 'tela-inicio' %}" class="btn btn-outline-success btn-lg rounded-pill px-4">
-                    ← Voltar ao Início
-                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'tela-inicio' %}" class="btn btn-outline-success btn-lg rounded-pill px-4">
+                        ← Voltar ao Início
+                    </a>
+                {% else %}
+                    <a href="{% url 'index' %}" class="btn btn-outline-success btn-lg rounded-pill px-4">
+                        ← Voltar ao Início
+                    </a>
+                {% endif %}
             </div>
 
             <hr class="my-4">
