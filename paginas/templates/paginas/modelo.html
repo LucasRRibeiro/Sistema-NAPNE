@@ -85,6 +85,17 @@
             background: #222 !important;
             border-color: #fff !important;
         }
+        /* Exceção para a logo do IFPR - não aplicar fundo escuro */
+        .high-contrast header a {
+            background: transparent !important;
+            border: none !important;
+        }
+        /* Exceção para os botões de acessibilidade - manter transparentes */
+        .high-contrast .accessibility-controls .accessibility-btn {
+            background: transparent !important;
+            border-color: #fff !important;
+            color: #fff !important;
+        }
         .high-contrast header {
             background-color: #333 !important;
         }
@@ -103,20 +114,178 @@
         }
         .high-contrast label {
             color: #fff !important;
+            font-weight: bold !important;
         }
         .high-contrast .form-control, .high-contrast .form-select {
             background: #222 !important;
             color: #fff !important;
             border: 2px solid #fff !important;
         }
+        .high-contrast .form-control:focus, .high-contrast .form-select:focus {
+            background: #333 !important;
+            color: #fff !important;
+            border: 3px solid #ffff00 !important;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 0, 0.5) !important;
+        }
         .high-contrast .btn {
             background: #444 !important;
             color: #fff !important;
             border: 2px solid #fff !important;
+            font-weight: bold !important;
         }
         .high-contrast .btn:hover {
             background: #666 !important;
             color: #fff !important;
+            border: 2px solid #ffff00 !important;
+        }
+        .high-contrast .btn:focus {
+            background: #555 !important;
+            color: #fff !important;
+            border: 3px solid #ffff00 !important;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 0, 0.5) !important;
+        }
+        /* Melhorias específicas para crispy forms */
+        .high-contrast .form-group {
+            background: #000 !important;
+            color: #fff !important;
+            margin-bottom: 1.5rem !important;
+        }
+        .high-contrast .form-text, .high-contrast .help-text {
+            color: #ccc !important;
+            background: #111 !important;
+            padding: 0.5rem !important;
+            border-radius: 4px !important;
+        }
+        .high-contrast .invalid-feedback {
+            color: #ff6b6b !important;
+            background: #330000 !important;
+            padding: 0.5rem !important;
+            border: 1px solid #ff6b6b !important;
+            border-radius: 4px !important;
+        }
+        .high-contrast .valid-feedback {
+            color: #51cf66 !important;
+            background: #003300 !important;
+            padding: 0.5rem !important;
+            border: 1px solid #51cf66 !important;
+            border-radius: 4px !important;
+        }
+        /* Checkboxes e radio buttons */
+        .high-contrast input[type="checkbox"], .high-contrast input[type="radio"] {
+            background: #222 !important;
+            border: 2px solid #fff !important;
+            accent-color: #fff !important;
+        }
+        .high-contrast input[type="checkbox"]:checked, .high-contrast input[type="radio"]:checked {
+            background: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        /* Fieldsets e legends */
+        .high-contrast fieldset {
+            border: 2px solid #fff !important;
+            background: #111 !important;
+            color: #fff !important;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .high-contrast legend {
+            color: #fff !important;
+            background: #222 !important;
+            padding: 0.5rem 1rem !important;
+            border: 1px solid #fff !important;
+            font-weight: bold !important;
+        }
+        /* Melhorias para form containers */
+        .high-contrast .form-container {
+            background: #000 !important;
+            color: #fff !important;
+            padding: 2rem !important;
+            border: 2px solid #fff !important;
+            border-radius: 8px !important;
+        }
+        .high-contrast .cadastro {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        /* Melhorias adicionais para dropdowns e seletores */
+        .high-contrast .dropdown-menu {
+            background: #222 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        .high-contrast .dropdown-item {
+            background: #222 !important;
+            color: #fff !important;
+        }
+        .high-contrast .dropdown-item:hover, .high-contrast .dropdown-item:focus {
+            background: #444 !important;
+            color: #fff !important;
+        }
+        /* Melhorias para modais */
+        .high-contrast .modal-content {
+            background: #000 !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+        .high-contrast .modal-header {
+            background: #333 !important;
+            color: #fff !important;
+            border-bottom: 1px solid #fff !important;
+        }
+        .high-contrast .modal-body {
+            background: #111 !important;
+            color: #fff !important;
+        }
+        .high-contrast .modal-footer {
+            background: #333 !important;
+            color: #fff !important;
+            border-top: 1px solid #fff !important;
+        }
+        /* Melhorias para navegação e breadcrumbs */
+        .high-contrast .breadcrumb {
+            background: #222 !important;
+            color: #fff !important;
+        }
+        .high-contrast .breadcrumb-item a {
+            color: #fff !important;
+        }
+        .high-contrast .breadcrumb-item.active {
+            color: #ccc !important;
+        }
+        /* Melhorias para paginação */
+        .high-contrast .pagination .page-link {
+            background: #222 !important;
+            color: #fff !important;
+            border: 1px solid #fff !important;
+        }
+        .high-contrast .pagination .page-link:hover {
+            background: #444 !important;
+            color: #fff !important;
+        }
+        .high-contrast .pagination .page-item.active .page-link {
+            background: #666 !important;
+            color: #fff !important;
+            border-color: #fff !important;
+        }
+        /* Melhorias para tabs */
+        .high-contrast .nav-tabs .nav-link {
+            background: #222 !important;
+            color: #fff !important;
+            border: 1px solid #fff !important;
+        }
+        .high-contrast .nav-tabs .nav-link.active {
+            background: #444 !important;
+            color: #fff !important;
+            border-color: #fff !important;
+        }
+        /* Melhorias para texto de ajuda e tooltips */
+        .high-contrast .tooltip-inner {
+            background: #000 !important;
+            color: #fff !important;
+            border: 1px solid #fff !important;
+        }
+        .high-contrast .small, .high-contrast .text-muted {
+            color: #ccc !important;
         }
         /* Melhorias para tabelas */
         .high-contrast table, .high-contrast .table {
@@ -169,62 +338,140 @@
         .font-large {
             font-size: 1.15em !important;
         }
-        .font-large * {
+        /* Aplicar aumento proporcional apenas ao conteúdo principal */
+        .font-large main, .font-large .container, .font-large .card-body {
             font-size: 1.15em !important;
+            line-height: 1.5 !important;
         }
+        /* Manter botões de acessibilidade no tamanho original */
         .font-large .accessibility-btn {
             font-size: 1rem !important;
             width: 40px !important;
             height: 40px !important;
         }
-        /* Manter layout responsivo com fonte grande */
-        .font-large .container, .font-large .row, .font-large .col {
-            line-height: 1.4 !important;
-        }
+        /* Ajustes específicos para elementos importantes */
         .font-large .btn {
-            padding: 0.5rem 1rem !important;
-            line-height: 1.2 !important;
+            padding: 0.6rem 1.2rem !important;
+            font-size: 1.1em !important;
+            line-height: 1.3 !important;
         }
         .font-large .table td, .font-large .table th {
-            padding: 0.75rem 0.5rem !important;
-            line-height: 1.3 !important;
+            padding: 0.9rem 0.7rem !important;
+            font-size: 1.1em !important;
+            line-height: 1.4 !important;
         }
-        .font-large .form-control {
-            padding: 0.5rem 0.75rem !important;
-            line-height: 1.3 !important;
+        .font-large .form-control, .font-large .form-select {
+            padding: 0.7rem 0.9rem !important;
+            font-size: 1.1em !important;
+            line-height: 1.4 !important;
+        }
+        .font-large .card {
+            margin-bottom: 1.5rem !important;
         }
         .font-large .card-body {
-            padding: 1rem !important;
+            padding: 1.3rem !important;
         }
+        /* Ajustes para navegação */
+        .font-large .nav-link {
+            padding: 0.7rem 1rem !important;
+            font-size: 1.1em !important;
+        }
+        
+        /* Fonte Extra Grande - Abordagem mais conservadora */
         .font-xlarge {
-            font-size: 1.3em !important;
+            font-size: 1.25em !important;
         }
-        .font-xlarge * {
-            font-size: 1.3em !important;
+        .font-xlarge main, .font-xlarge .container, .font-xlarge .card-body {
+            font-size: 1.25em !important;
+            line-height: 1.6 !important;
         }
+        /* Manter botões de acessibilidade no tamanho original */
         .font-xlarge .accessibility-btn {
             font-size: 1rem !important;
             width: 40px !important;
             height: 40px !important;
         }
-        /* Manter layout responsivo com fonte extra grande */
-        .font-xlarge .container, .font-xlarge .row, .font-xlarge .col {
-            line-height: 1.5 !important;
-        }
+        /* Ajustes específicos para elementos importantes */
         .font-xlarge .btn {
-            padding: 0.6rem 1.2rem !important;
-            line-height: 1.2 !important;
+            padding: 0.8rem 1.4rem !important;
+            font-size: 1.2em !important;
+            line-height: 1.3 !important;
         }
         .font-xlarge .table td, .font-xlarge .table th {
-            padding: 1rem 0.75rem !important;
-            line-height: 1.4 !important;
+            padding: 1.1rem 0.9rem !important;
+            font-size: 1.2em !important;
+            line-height: 1.5 !important;
         }
-        .font-xlarge .form-control {
-            padding: 0.75rem 1rem !important;
-            line-height: 1.4 !important;
+        .font-xlarge .form-control, .font-xlarge .form-select {
+            padding: 0.9rem 1.1rem !important;
+            font-size: 1.2em !important;
+            line-height: 1.5 !important;
+        }
+        .font-xlarge .card {
+            margin-bottom: 2rem !important;
         }
         .font-xlarge .card-body {
+            padding: 1.8rem !important;
+        }
+        /* Ajustes para navegação */
+        .font-xlarge .nav-link {
+            padding: 0.9rem 1.2rem !important;
+            font-size: 1.2em !important;
+        }
+        
+        /* Melhorias gerais para ambos os tamanhos */
+        .font-large, .font-xlarge {
+            /* Evitar quebras desnecessárias */
+            word-wrap: break-word !important;
+            hyphens: auto !important;
+        }
+        /* Fazer elementos flexíveis se adaptarem melhor */
+        .font-large .d-flex, .font-xlarge .d-flex {
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+        }
+        /* Melhorar responsividade da navegação */
+        .font-large .navbar-nav, .font-xlarge .navbar-nav {
+            flex-direction: column !important;
+        }
+        @media (min-width: 992px) {
+            .font-large .navbar-nav, .font-xlarge .navbar-nav {
+                flex-direction: row !important;
+            }
+        }
+        /* Ajustar containers para evitar overflow */
+        .font-large .container-fluid, .font-xlarge .container-fluid {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        /* Ajustar alertas e modais */
+        .font-large .alert, .font-xlarge .alert {
+            padding: 1rem 1.2rem !important;
+            margin-bottom: 1.2rem !important;
+        }
+        .font-large .modal-body, .font-xlarge .modal-body {
             padding: 1.5rem !important;
+        }
+        
+        /* Estilos específicos para texto de boas-vindas */
+        .welcome-title {
+            font-size: 1.8rem !important;
+        }
+        .welcome-text {
+            font-size: 1.1rem !important;
+        }
+        /* Fazer os textos de boas-vindas responderem ao aumento de fonte */
+        .font-large .welcome-title {
+            font-size: 2.07rem !important; /* 1.8 * 1.15 */
+        }
+        .font-large .welcome-text {
+            font-size: 1.27rem !important; /* 1.1 * 1.15 */
+        }
+        .font-xlarge .welcome-title {
+            font-size: 2.25rem !important; /* 1.8 * 1.25 */
+        }
+        .font-xlarge .welcome-text {
+            font-size: 1.38rem !important; /* 1.1 * 1.25 */
         }
         /* Evitar quebras no layout */
         .font-large .text-nowrap, .font-xlarge .text-nowrap {
@@ -385,6 +632,22 @@
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.accessibility-controls')) {
                 accessibilityMenu.classList.remove('show');
+            }
+        });
+
+        // Desabilitar contraste durante impressão/PDF
+        window.addEventListener('beforeprint', function() {
+            const wasHighContrast = body.classList.contains('high-contrast');
+            if (wasHighContrast) {
+                body.classList.remove('high-contrast');
+                body.setAttribute('data-was-high-contrast', 'true');
+            }
+        });
+
+        window.addEventListener('afterprint', function() {
+            if (body.getAttribute('data-was-high-contrast') === 'true') {
+                body.classList.add('high-contrast');
+                body.removeAttribute('data-was-high-contrast');
             }
         });
     });
