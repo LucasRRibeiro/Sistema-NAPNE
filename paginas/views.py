@@ -1,7 +1,7 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,7 +21,7 @@ class CadastroUsuarioView(CreateView):
     form_class = UsuarioCadastroForm
     # Pode utilizar o seu form padrão
     template_name = 'paginas/form.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('tela-inicio')
     extra_context = {
         'titulo': 'Cadastro de Usuário',
         'botao': 'Registrar',
@@ -48,8 +48,27 @@ class SobreView(TemplateView):
 # VIEWS PROTEGIDAS
 class TelaInicioView(LoginRequiredMixin, TemplateView):
     template_name = 'paginas/tela-inicio.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        # Verificar grupos do usuário
+        user_groups = user.groups.all().values_list('name', flat=True)
+        
+        context['is_coordenadora'] = 'Coordenadora' in user_groups
+        context['is_servidor'] = 'Servidor' in user_groups
+        context['is_responsavel'] = 'Responsável' in user_groups
+        context['is_estudante'] = 'Estudante' in user_groups
+        context['is_admin'] = user.is_superuser
+        context['can_access_menu'] = 'Coordenadora' in user_groups or 'Servidor' in user_groups or user.is_superuser
+        context['can_register_users'] = 'Coordenadora' in user_groups or user.is_superuser
+        
+        return context
 
-class MenuView(LoginRequiredMixin, TemplateView):
+class MenuView(GroupRequiredMixin, LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
+    group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/menu.html'
 
 class MenuListasView(LoginRequiredMixin, TemplateView):
@@ -113,6 +132,7 @@ def form_valid(self, form):
     return super().form_valid(form)
 
 class ResponsavelCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Responsavel
@@ -151,6 +171,7 @@ def form_valid(self, form):
     return super().form_valid(form)
 
 class CursoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Curso
@@ -160,6 +181,7 @@ class CursoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, C
     extra_context = {'titulo': 'Cadastro de Curso', 'botao': 'Salvar'}
 
 class DisciplinaCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Disciplina
@@ -169,6 +191,7 @@ class DisciplinaCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
     extra_context = {'titulo': 'Cadastro de Disciplina', 'botao': 'Salvar'}
 
 class ProfessorCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Professor
@@ -178,6 +201,7 @@ class ProfessorCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixi
     extra_context = {'titulo': 'Cadastro de Professor', 'botao': 'Salvar'}
 
 class AlunoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Aluno
@@ -208,6 +232,7 @@ class AlunoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, C
         return super().form_valid(form)
 
 class LaudoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = Laudo
@@ -223,6 +248,7 @@ class LaudoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, C
     
 
 class InteracoesCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Interacoes
@@ -237,6 +263,7 @@ class InteracoesCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         return super().form_valid(form)
 
 class IndicativoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Indicativo
@@ -251,6 +278,7 @@ class IndicativoCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         return super().form_valid(form)
 
 class IntervencaoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Intervencao
@@ -265,6 +293,7 @@ class IntervencaoCreate(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 class PteCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = Pte
@@ -279,6 +308,7 @@ class PteCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, Cre
         return super().form_valid(form)
 
 class RelatorioPteCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = RelatorioPte
@@ -294,6 +324,7 @@ class RelatorioPteCreate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredM
 
 # UPDATE
 class NapneUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'paginas/form.html'
     model = Napne
     fields = ['data_criacao', 'descricao']
@@ -302,6 +333,7 @@ class NapneUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     extra_context = {'titulo': 'Atualização de Napne', 'botao': 'Salvar'}
 
 class ServidorUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = Servidor
@@ -311,6 +343,7 @@ class ServidorUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin
     extra_context = {'titulo': 'Atualização de Servidor', 'botao': 'Salvar'}
 
 class ResponsavelUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Responsavel
@@ -320,6 +353,7 @@ class ResponsavelUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMi
     extra_context = {'titulo': 'Atualização de Responsável', 'botao': 'Salvar'}
 
 class CursoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Curso
@@ -329,6 +363,7 @@ class CursoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, U
     extra_context = {'titulo': 'Atualização de Curso', 'botao': 'Salvar'}
 
 class DisciplinaUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Disciplina
@@ -338,6 +373,7 @@ class DisciplinaUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
     extra_context = {'titulo': 'Atualização de Disciplina', 'botao': 'Salvar'}
 
 class ProfessorUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Professor
@@ -347,6 +383,7 @@ class ProfessorUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixi
     extra_context = {'titulo': 'Atualização de Professor', 'botao': 'Salvar'}
 
 class AlunoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Aluno
@@ -356,6 +393,7 @@ class AlunoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, U
     extra_context = {'titulo': 'Atualização de alunos', 'botao': 'Salvar'}
 
 class LaudoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = Laudo
@@ -372,6 +410,7 @@ class LaudoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, U
         return obj
 
 class InteracoesUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Interacoes
@@ -387,6 +426,7 @@ class InteracoesUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         return obj
 
 class IndicativoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Indicativo
@@ -401,6 +441,7 @@ class IndicativoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         obj = get_object_or_404(Indicativo, pk=self.kwargs['pk'], cadastrado_por=self.request.user)
         return obj
 class IntervencaoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form.html'
     model = Intervencao
@@ -415,6 +456,7 @@ class IntervencaoUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMi
         obj = get_object_or_404(Intervencao, pk=self.kwargs['pk'], cadastrado_por=self.request.user)
         return obj
 class PteUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = Pte
@@ -435,6 +477,7 @@ class PteUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, Upd
         return obj
 
 class RelatorioPteUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form.html'
     model = RelatorioPte
@@ -456,12 +499,14 @@ class RelatorioPteUpdate(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredM
     
 # DELETE
 class NapneDelete(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     template_name = 'paginas/form-excluir.html'
     model = Napne
     success_url = reverse_lazy('listar-napne')
     success_message = "Napne excluído com sucesso!"
 
 class ServidorDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form-excluir.html'
     model = Servidor
@@ -470,6 +515,7 @@ class ServidorDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin
 
 
 class ResponsavelDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Responsavel
@@ -477,6 +523,7 @@ class ResponsavelDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMi
     success_message = "Responsável excluído com sucesso!"
 
 class CursoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Curso
@@ -484,6 +531,7 @@ class CursoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, D
     success_message = "Curso excluído com sucesso!"
 
 class DisciplinaDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Disciplina
@@ -491,6 +539,7 @@ class DisciplinaDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
     success_message = "Disciplina excluída com sucesso!"
 
 class ProfessorDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Professor
@@ -498,6 +547,7 @@ class ProfessorDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixi
     success_message = "Professor excluído com sucesso!"
 
 class AlunoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Aluno
@@ -505,6 +555,7 @@ class AlunoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, D
     success_message = "Aluno excluído com sucesso!"
 
 class LaudoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     model = Laudo
     template_name = 'paginas/form-excluir.html'
@@ -518,6 +569,7 @@ class LaudoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, D
         return obj
 
 class InteracoesDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Interacoes
@@ -531,6 +583,7 @@ class InteracoesDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         return obj
 
 class IndicativoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Indicativo
@@ -544,6 +597,7 @@ class IndicativoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMix
         return obj
 
 class IntervencaoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = [u"Coordenadora", u"Servidor"]
     template_name = 'paginas/form-excluir.html'
     model = Intervencao
@@ -557,6 +611,7 @@ class IntervencaoDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMi
         return obj
 
 class PteDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form-excluir.html'
     model = Pte
@@ -570,6 +625,7 @@ class PteDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, Del
         return obj
 
 class RelatorioPteDelete(GroupRequiredMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     group_required = u"Coordenadora"
     template_name = 'paginas/form-excluir.html'
     model = RelatorioPte
@@ -907,5 +963,88 @@ def PtePdf(request, pk):
 def RelatorioPtePdf(request, pk):
     relatoriopte = get_object_or_404(RelatorioPte, pk=pk)
     return render(request, "paginas/pdf/relatorio-pte.html", {"relatoriopte": relatoriopte})
+
+# VIEWS PARA GERENCIAMENTO DE USUÁRIOS
+class GerenciarUsuariosView(GroupRequiredMixin, LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    group_required = [u"Coordenadora"]
+    model = User
+    template_name = "paginas/gerenciar-usuarios.html"
+    context_object_name = 'usuarios'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Adicionar todos os grupos disponíveis ao contexto
+        context['grupos'] = Group.objects.all()
+        return context
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Permitir acesso também para admins
+        if request.user.is_authenticated and request.user.is_superuser:
+            return super(ListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
+
+class EditarUsuarioView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    group_required = [u"Coordenadora"]
+    model = User
+    template_name = "paginas/editar-usuario.html"
+    fields = ['username', 'email', 'first_name', 'last_name', 'is_active']
+    success_url = reverse_lazy('gerenciar-usuarios')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['grupos'] = Group.objects.all()
+        context['grupos_usuario'] = self.object.groups.all()
+        return context
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Permitir acesso também para admins
+        if request.user.is_authenticated and request.user.is_superuser:
+            return super(UpdateView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AlterarGrupoUsuarioView(GroupRequiredMixin, LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+    group_required = [u"Coordenadora"]
+    
+    def post(self, request, *args, **kwargs):
+        import json
+        
+        # Permitir acesso também para admins
+        user_groups = request.user.groups.all().values_list('name', flat=True)
+        is_coordenadora = 'Coordenadora' in user_groups
+        is_admin = request.user.is_superuser
+        
+        if not (is_coordenadora or is_admin):
+            return JsonResponse({'success': False, 'message': 'Sem permissão'})
+        
+        try:
+            data = json.loads(request.body)
+            user_id = data.get('user_id')
+            group_id = data.get('group_id')
+            action = data.get('action')  # 'add' ou 'remove'
+            
+            user = User.objects.get(id=user_id)
+            group = Group.objects.get(id=group_id)
+            
+            if action == 'add':
+                user.groups.add(group)
+                message = f'Usuário adicionado ao grupo {group.name}'
+            elif action == 'remove':
+                user.groups.remove(group)
+                message = f'Usuário removido do grupo {group.name}'
+            else:
+                return JsonResponse({'success': False, 'message': 'Ação inválida'})
+            
+            return JsonResponse({'success': True, 'message': message})
+            
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
 
 # FIM DAS VIEWS

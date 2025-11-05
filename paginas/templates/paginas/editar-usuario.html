@@ -1,0 +1,215 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+<title>Editar Usuário - Sistema NAPNE</title>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Editar Usuário: {{ object.username }}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Username:</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email:</label>
+                                {{ form.email }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">Primeiro Nome:</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Último Nome:</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.is_active }}
+                                <label for="{{ form.is_active.id_for_label }}" class="form-check-label">
+                                    Usuário ativo
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Seção de Grupos -->
+                        <div class="mb-4">
+                            <h5>Grupos do Usuário</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Grupos Atuais:</h6>
+                                    <div id="grupos-atuais" class="border rounded p-3" style="min-height: 150px;">
+                                        {% for grupo in grupos_usuario %}
+                                            <div class="d-flex justify-content-between align-items-center mb-2 grupo-item" data-group-id="{{ grupo.id }}">
+                                                <span class="badge bg-primary">{{ grupo.name }}</span>
+                                                <button type="button" class="btn btn-sm btn-outline-danger remover-grupo" 
+                                                        data-group-id="{{ grupo.id }}" data-group-name="{{ grupo.name }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        {% empty %}
+                                            <p class="text-muted">Nenhum grupo atribuído</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Grupos Disponíveis:</h6>
+                                    <div id="grupos-disponiveis" class="border rounded p-3" style="min-height: 150px;">
+                                        {% for grupo in grupos %}
+                                            {% if grupo not in grupos_usuario %}
+                                                <div class="d-flex justify-content-between align-items-center mb-2 grupo-item" data-group-id="{{ grupo.id }}">
+                                                    <span class="badge bg-secondary">{{ grupo.name }}</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-success adicionar-grupo" 
+                                                            data-group-id="{{ grupo.id }}" data-group-name="{{ grupo.name }}">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'gerenciar-usuarios' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Voltar
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function showMessage(message, type = 'success') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+
+    // Adicionar usuário a grupo
+    document.querySelectorAll('.adicionar-grupo').forEach(button => {
+        button.addEventListener('click', function() {
+            const groupId = this.dataset.groupId;
+            const groupName = this.dataset.groupName;
+            const userId = {{ object.id }};
+            
+            fetch('{% url "alterar-grupo-usuario" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    group_id: groupId,
+                    action: 'add'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    // Mover o grupo para a lista de grupos atuais
+                    const grupoItem = this.closest('.grupo-item');
+                    grupoItem.querySelector('.badge').className = 'badge bg-primary';
+                    grupoItem.querySelector('button').className = 'btn btn-sm btn-outline-danger remover-grupo';
+                    grupoItem.querySelector('button').innerHTML = '<i class="fas fa-times"></i>';
+                    grupoItem.querySelector('button').dataset.groupId = groupId;
+                    grupoItem.querySelector('button').dataset.groupName = groupName;
+                    
+                    document.getElementById('grupos-atuais').appendChild(grupoItem);
+                    
+                    // Atualizar event listeners
+                    grupoItem.querySelector('button').addEventListener('click', removerGrupoHandler);
+                } else {
+                    showMessage(data.message, 'danger');
+                }
+            })
+            .catch(error => {
+                showMessage('Erro ao processar solicitação', 'danger');
+            });
+        });
+    });
+
+    // Remover usuário de grupo
+    function removerGrupoHandler() {
+        const groupId = this.dataset.groupId;
+        const groupName = this.dataset.groupName;
+        const userId = {{ object.id }};
+        
+        fetch('{% url "alterar-grupo-usuario" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                group_id: groupId,
+                action: 'remove'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showMessage(data.message, 'success');
+                // Mover o grupo para a lista de grupos disponíveis
+                const grupoItem = this.closest('.grupo-item');
+                grupoItem.querySelector('.badge').className = 'badge bg-secondary';
+                grupoItem.querySelector('button').className = 'btn btn-sm btn-outline-success adicionar-grupo';
+                grupoItem.querySelector('button').innerHTML = '<i class="fas fa-plus"></i>';
+                
+                document.getElementById('grupos-disponiveis').appendChild(grupoItem);
+                
+                // Atualizar event listeners
+                grupoItem.querySelector('button').addEventListener('click', function() {
+                    document.querySelectorAll('.adicionar-grupo').forEach(btn => {
+                        btn.addEventListener('click', arguments.callee);
+                    });
+                });
+            } else {
+                showMessage(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            showMessage('Erro ao processar solicitação', 'danger');
+        });
+    }
+
+    document.querySelectorAll('.remover-grupo').forEach(button => {
+        button.addEventListener('click', removerGrupoHandler);
+    });
+});
+</script>
+{% endblock %}

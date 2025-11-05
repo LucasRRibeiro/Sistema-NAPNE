@@ -15,9 +15,28 @@
     </p>
 
     <div class="d-grid gap-3 justify-content-center">
-        <a href="{% url 'menu' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
-            Menu de Cadastros
-        </a><br><br>
+        <!-- Botão de Cadastrar Usuário - apenas para Coordenadora e Admin -->
+        {% if can_register_users %}
+            <a href="{% url 'registrar' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+                Cadastrar Usuário
+            </a><br><br>
+        {% endif %}
+        
+        <!-- Botão de Gerenciar Usuários - apenas para Coordenadora e Admin -->
+        {% if can_register_users %}
+            <a href="{% url 'gerenciar-usuarios' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+                Gerenciar Usuários
+            </a><br><br>
+        {% endif %}
+        
+        <!-- Menu de Cadastros - apenas para Coordenadora, Servidor e Admin -->
+        {% if can_access_menu %}
+            <a href="{% url 'menu' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto" style="width: 300px;">
+                Menu de Cadastros
+            </a><br><br>
+        {% endif %}
+        
+        <!-- Menu de Listas - disponível para todos os usuários logados -->
         <a href="{% url 'menu-listas' %}" class="btn btn-outline-success btn-lg rounded-pill mx-auto"
             style="width: 300px;">
             Menu de Listas

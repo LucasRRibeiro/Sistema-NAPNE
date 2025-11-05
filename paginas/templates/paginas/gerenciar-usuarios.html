@@ -1,0 +1,255 @@
+{% extends "paginas/modelo.html" %}
+{% load static %}
+
+{% block titulo %}
+<title>Gerenciar Usuários - Sistema NAPNE</title>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-success">Gerenciar Usuários</h2>
+        <a href="{% url 'registrar' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Novo Usuário
+        </a>
+    </div>
+
+    <!-- Filtros de busca -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" id="filtro-nome" class="form-control" placeholder="Buscar por nome ou username...">
+        </div>
+        <div class="col-md-3">
+            <select id="filtro-grupo" class="form-select">
+                <option value="">Todos os grupos</option>
+                {% for grupo in grupos %}
+                    <option value="{{ grupo.name }}">{{ grupo.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Tabela de usuários -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-success">
+                <tr>
+                    <th>Username</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Grupos</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-usuarios">
+                {% for usuario in usuarios %}
+                <tr data-user-id="{{ usuario.id }}">
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.first_name|default:"-" }} {{ usuario.last_name|default:"" }}</td>
+                    <td>{{ usuario.email|default:"-" }}</td>
+                    <td>
+                        <div class="grupos-usuario" data-user-id="{{ usuario.id }}">
+                            {% for grupo in usuario.groups.all %}
+                                <span class="badge bg-primary me-1 grupo-badge" data-group-id="{{ grupo.id }}">
+                                    {{ grupo.name }}
+                                    <button type="button" class="btn-close btn-close-white ms-1 remover-grupo" 
+                                            data-user-id="{{ usuario.id }}" data-group-id="{{ grupo.id }}" 
+                                            data-group-name="{{ grupo.name }}" style="font-size: 0.6em;"></button>
+                                </span>
+                            {% empty %}
+                                <span class="text-muted">Nenhum grupo</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-1">
+                            <select class="form-select form-select-sm adicionar-grupo" data-user-id="{{ usuario.id }}">
+                                <option value="">Adicionar ao grupo...</option>
+                                {% for grupo in grupos %}
+                                    {% if grupo not in usuario.groups.all %}
+                                        <option value="{{ grupo.id }}">{{ grupo.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        {% if usuario.is_active %}
+                            <span class="badge bg-success">Ativo</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inativo</span>
+                        {% endif %}
+                        {% if usuario.is_superuser %}
+                            <span class="badge bg-warning">Admin</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'editar-usuario' usuario.pk %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            {% if not usuario.is_superuser %}
+                                <button type="button" class="btn btn-outline-warning btn-sm toggle-status" 
+                                        data-user-id="{{ usuario.id }}" data-current-status="{{ usuario.is_active }}">
+                                    {% if usuario.is_active %}
+                                        <i class="fas fa-ban"></i> Desativar
+                                    {% else %}
+                                        <i class="fas fa-check"></i> Ativar
+                                    {% endif %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhum usuário encontrado</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Ação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirm-action">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para mostrar mensagens
+    function showMessage(message, type = 'success') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+
+    // Remover usuário de grupo
+    document.querySelectorAll('.remover-grupo').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.dataset.userId;
+            const groupId = this.dataset.groupId;
+            const groupName = this.dataset.groupName;
+            
+            document.getElementById('confirm-message').textContent = 
+                `Deseja remover o usuário do grupo "${groupName}"?`;
+            
+            document.getElementById('confirm-action').onclick = function() {
+                fetch('{% url "alterar-grupo-usuario" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        group_id: groupId,
+                        action: 'remove'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        location.reload();
+                    } else {
+                        showMessage(data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    showMessage('Erro ao processar solicitação', 'danger');
+                });
+                
+                bootstrap.Modal.getInstance(document.getElementById('confirmModal')).hide();
+            };
+            
+            new bootstrap.Modal(document.getElementById('confirmModal')).show();
+        });
+    });
+
+    // Adicionar usuário a grupo
+    document.querySelectorAll('.adicionar-grupo').forEach(select => {
+        select.addEventListener('change', function() {
+            if (this.value) {
+                const userId = this.dataset.userId;
+                const groupId = this.value;
+                const groupName = this.options[this.selectedIndex].text;
+                
+                fetch('{% url "alterar-grupo-usuario" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        group_id: groupId,
+                        action: 'add'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        location.reload();
+                    } else {
+                        showMessage(data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    showMessage('Erro ao processar solicitação', 'danger');
+                });
+                
+                this.value = '';
+            }
+        });
+    });
+
+    // Filtro de busca
+    document.getElementById('filtro-nome').addEventListener('input', function() {
+        filtrarTabela();
+    });
+
+    document.getElementById('filtro-grupo').addEventListener('change', function() {
+        filtrarTabela();
+    });
+
+    function filtrarTabela() {
+        const filtroNome = document.getElementById('filtro-nome').value.toLowerCase();
+        const filtroGrupo = document.getElementById('filtro-grupo').value;
+        const linhas = document.querySelectorAll('#tabela-usuarios tr');
+
+        linhas.forEach(linha => {
+            const username = linha.cells[0]?.textContent.toLowerCase() || '';
+            const nome = linha.cells[1]?.textContent.toLowerCase() || '';
+            const grupos = Array.from(linha.querySelectorAll('.grupo-badge')).map(badge => badge.textContent.trim());
+            
+            const matchNome = username.includes(filtroNome) || nome.includes(filtroNome);
+            const matchGrupo = !filtroGrupo || grupos.some(grupo => grupo.includes(filtroGrupo));
+            
+            linha.style.display = matchNome && matchGrupo ? '' : 'none';
+        });
+    }
+});
+</script>
+{% endblock %}

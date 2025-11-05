@@ -7,6 +7,7 @@ from .views import LaudoDelete, NapneDelete, ResponsavelDelete, IndicativoDelete
 from .views import LaudoList, NapneList, ResponsavelList, IndicativoList, AlunoList, InteracoesList, IntervencaoList, ServidorList, CursoList, DisciplinaList, ProfessorList, PteList, RelatorioPteList
 from django.contrib.auth import views as auth_views
 from .views import CadastroUsuarioView
+from .views import GerenciarUsuariosView, EditarUsuarioView, AlterarGrupoUsuarioView
 from .views import MeusLaudos, MinhasInteracoes, MeusIndicativos, MeusPtes, MeusRelatoriosPte, MinhasIntervencoes
 from .views import NapnePdf, ServidorPdf, ResponsavelPdf, AlunoPdf, LaudoPdf, IndicativoPdf, InteracoesPdf, IntervencaoPdf, CursoPdf, DisciplinaPdf, ProfessorPdf, PtePdf, RelatorioPtePdf
 
@@ -117,5 +118,10 @@ urlpatterns = [
     path('pdf/professor/<int:pk>/', ProfessorPdf, name="pdf-professor"),
     path('pdf/pte/<int:pk>/', PtePdf, name="pdf-pte"),
     path('pdf/relatorio-pte/<int:pk>/', RelatorioPtePdf, name="pdf-relatorio-pte"), 
+    
+    # URLs para gerenciamento de usuários
+    path('gerenciar/usuarios/', GerenciarUsuariosView.as_view(), name="gerenciar-usuarios"),
+    path('editar/usuario/<int:pk>/', EditarUsuarioView.as_view(), name="editar-usuario"),
+    path('alterar/grupo-usuario/', AlterarGrupoUsuarioView.as_view(), name="alterar-grupo-usuario"),
 ]
 
