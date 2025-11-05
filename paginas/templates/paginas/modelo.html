@@ -572,13 +572,15 @@
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-    {% block scripts %}
+    <!-- Script de acessibilidade - sempre executado -->
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const conteudo = document.getElementById('conteudo-fade');
-        setTimeout(() => {
-            conteudo.classList.add('visible');
-        }, 100);  // pequeno atraso para ativar transição
+        if (conteudo) {
+            setTimeout(() => {
+                conteudo.classList.add('visible');
+            }, 100);  // pequeno atraso para ativar transição
+        }
         
         // Acessibilidade visual
         const body = document.body;
@@ -587,27 +589,35 @@
         const fontLargeBtn = document.getElementById('font-large');
         const fontXLargeBtn = document.getElementById('font-xlarge');
 
-        // Contraste WCAG AA
-        contrastBtn.addEventListener('click', function() {
-            body.classList.toggle('high-contrast');
-            localStorage.setItem('high-contrast', body.classList.contains('high-contrast'));
-        });
+        // Verificar se os elementos existem antes de adicionar eventos
+        if (contrastBtn) {
+            contrastBtn.addEventListener('click', function() {
+                body.classList.toggle('high-contrast');
+                localStorage.setItem('high-contrast', body.classList.contains('high-contrast'));
+            });
+        }
 
         // Tamanho da fonte
-        fontNormalBtn.addEventListener('click', function() {
-            body.classList.remove('font-large', 'font-xlarge');
-            localStorage.setItem('font-size', 'normal');
-        });
-        fontLargeBtn.addEventListener('click', function() {
-            body.classList.add('font-large');
-            body.classList.remove('font-xlarge');
-            localStorage.setItem('font-size', 'large');
-        });
-        fontXLargeBtn.addEventListener('click', function() {
-            body.classList.add('font-xlarge');
-            body.classList.remove('font-large');
-            localStorage.setItem('font-size', 'xlarge');
-        });
+        if (fontNormalBtn) {
+            fontNormalBtn.addEventListener('click', function() {
+                body.classList.remove('font-large', 'font-xlarge');
+                localStorage.setItem('font-size', 'normal');
+            });
+        }
+        if (fontLargeBtn) {
+            fontLargeBtn.addEventListener('click', function() {
+                body.classList.add('font-large');
+                body.classList.remove('font-xlarge');
+                localStorage.setItem('font-size', 'large');
+            });
+        }
+        if (fontXLargeBtn) {
+            fontXLargeBtn.addEventListener('click', function() {
+                body.classList.add('font-xlarge');
+                body.classList.remove('font-large');
+                localStorage.setItem('font-size', 'xlarge');
+            });
+        }
 
         // Restaurar preferências salvas
         if (localStorage.getItem('high-contrast') === 'true') {
@@ -624,16 +634,18 @@
         const accessibilityToggle = document.getElementById('accessibility-toggle');
         const accessibilityMenu = document.getElementById('accessibility-menu');
         
-        accessibilityToggle.addEventListener('click', function() {
-            accessibilityMenu.classList.toggle('show');
-        });
+        if (accessibilityToggle && accessibilityMenu) {
+            accessibilityToggle.addEventListener('click', function() {
+                accessibilityMenu.classList.toggle('show');
+            });
 
-        // Fechar menu ao clicar fora
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.accessibility-controls')) {
-                accessibilityMenu.classList.remove('show');
-            }
-        });
+            // Fechar menu ao clicar fora
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.accessibility-controls')) {
+                    accessibilityMenu.classList.remove('show');
+                }
+            });
+        }
 
         // Desabilitar contraste durante impressão/PDF
         window.addEventListener('beforeprint', function() {
@@ -651,7 +663,10 @@
             }
         });
     });
-</script>
+    </script>
+
+    <!-- Bloco para scripts específicos de cada template -->
+    {% block scripts %}
     {% endblock %}
 
 </body>

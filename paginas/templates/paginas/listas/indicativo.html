@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <th>Data</th>
                 <th>Indicativo</th>
                 <th>Professor</th>
+                <th>Aluno</th>
                 <th>Opções</th>
             </tr>
         </thead>
@@ -200,6 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>{{ indicativo.data|date:"d/m/Y" }}</td>
                 <td>{{ indicativo.indicativo|yesno:"Sim,Não" }}</td>
                 <td>{{ indicativo.professor.nome }}</td>
+                <td>{{ indicativo.aluno.nome }}</td>
                 <td>
                     <a href="{% url 'editar-indicativo' indicativo.pk %}" class="btn btn-warning btn-sm me-1">✏️</a>
                     <a href="{% url 'excluir-indicativo' indicativo.pk %}" class="btn btn-danger btn-sm">🗑️</a>
